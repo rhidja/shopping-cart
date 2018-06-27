@@ -35,10 +35,9 @@ before-install:
 # Create database, schema and fixtures
 install:
   - composer install
-  #- cp app/config/parameters.yml.dist app/config/parameters.yml
-  - php bin/console doctrine:database:create --env=test
-  - php bin/console doctrine:schema:create --env=test
-  - php bin/console doctrine:fixtures:load -n --env=test
+  - cp .env.dist .env
+  - php bin/console make:migration
+  - php bin/console doctrine:migrations:migrate
 
 # Run script
 script:
