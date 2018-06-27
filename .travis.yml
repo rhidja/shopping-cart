@@ -36,7 +36,7 @@ before-install:
 install:
   - composer install
   - cp .env.dist .env
-  - php bin/console doctrine:database:drop
+  - php bin/console doctrine:database:drop --force
   - php bin/console doctrine:database:create
   - php bin/console make:migration
   - php bin/console --no-interaction doctrine:migrations:migrate
