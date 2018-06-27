@@ -36,7 +36,7 @@ class Produit
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNom(): string
     {
         return $this->nom;
     }
@@ -48,7 +48,7 @@ class Produit
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -60,7 +60,7 @@ class Produit
         return $this;
     }
 
-    public function getPrix(): ?float
+    public function getPrix(): float
     {
         return $this->prix;
     }
