@@ -2,38 +2,28 @@
 
 {% block title %}Produit index{% endblock %}
 
-{% block body %}
-    <h1>Produit index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+{% block container %}
+    <div class="row">
         {% for produit in produits %}
-            <tr>
-                <td>{{ produit.id }}</td>
-                <td>{{ produit.nom }}</td>
-                <td>{{ produit.description }}</td>
-                <td>{{ produit.prix }}</td>
-                <td>
-                    <a href="{{ path('produit_show', {'id': produit.id}) }}">show</a>
-                    <a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+            <div class="col-md-4">
+            	<figure class="card card-product">
+            		<div class="img-wrap"><img src="http://placehold.it/350x222"></div>
+            		<figcaption class="info-wrap">
+            				<h4 class="title">{{ produit.nom }}</h4>
+            				<p class="desc">Some small description goes here</p>
+            				<div class="rating-wrap">
+            					<div class="label-rating">132 reviews</div>
+            					<div class="label-rating">154 orders </div>
+            				</div> <!-- rating-wrap.// -->
+            		</figcaption>
+            		<div class="bottom-wrap">
+            			<a href="" class="btn btn-sm btn-primary float-right">Voir la fiche</a>
+            			<div class="price-wrap h5">
+            				<span class="price-new">{{ produit.prix }}€</span>
+            			</div> <!-- price-wrap.// -->
+            		</div> <!-- bottom-wrap.// -->
+            	</figure>
+            </div> <!-- col // -->
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('produit_new') }}">Create new</a>
+    </div>
 {% endblock %}
