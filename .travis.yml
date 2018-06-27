@@ -41,6 +41,7 @@ install:
   #- php bin/console make:migration
   - php bin/console --no-interaction doctrine:migrations:migrate
   - php bin/console --no-interaction doctrine:fixtures:load
+  - npm install @symfony/webpack-encore --save-dev
 
 # Run script
 script:
