@@ -4,17 +4,18 @@
 
 {% block container %}
     <div class="row">
+        <div class="col-md-12">
+            <h1>Liste des produits</h1>
+        </div>
+    </div>
+    <div class="row">
         {% for produit in produits %}
             <div class="col-md-4">
             	<figure class="card card-product">
             		<div class="img-wrap"><img src="http://placehold.it/350x222"></div>
             		<figcaption class="info-wrap">
-            				<h4 class="title">{{ produit.nom }}</h4>
-            				<p class="desc">Some small description goes here</p>
-            				<div class="rating-wrap">
-            					<div class="label-rating">132 reviews</div>
-            					<div class="label-rating">154 orders </div>
-            				</div> <!-- rating-wrap.// -->
+            				<h4 class="title"><a href="{{ path('produits_show', {'id' : produit.id}) }}" >{{ produit.nom}}</a></h4>
+            				<p class="desc">{{ produit.description|slice(0, 70) }}...</p><!-- rating-wrap.// -->
             		</figcaption>
             		<div class="bottom-wrap">
             			<a href="{{ path('produits_show', {id : produit.id }) }}" class="btn btn-sm btn-primary float-right" title="Voir la fiche">Voir la fiche</a>

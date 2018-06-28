@@ -1,5 +1,4 @@
 <?php
-
 // tests/Controller/ProduitControllerTest.php
 namespace App\Tests\Controller;
 
@@ -29,12 +28,30 @@ class ProduitControllerTest extends WebTestCase
     /**
      * @depends testIndex
      */
-    public function testBtnVoirDetail($crawler)
+    public function testVoirDetailBouton($crawler)
     {
-        $link = $crawler->filter('a[title="Voir la fiche"]')->attr('href');
-        $crawler = $this->client->request('GET', $link);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
+        $links = $crawler->filter('a:contains("Voir la fiche")');
+        $titles = $crawler->filter('figcaption h4');
+
+        for ($i=0; $i < count($links); $i++) {
+            $crawler = $this->client->click($links->eq($i)->link());
+            $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
+            $this->assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
+        }
+    }
+
+    /**
+     * @depends testIndex
+     */
+    public function testVoirDetailLienTitre($crawler)
+    {
+        $titles = $crawler->filter('figcaption h4 a');
+
+        for ($i=0; $i < count($titles); $i++) {
+            $crawler = $this->client->click($titles->eq($i)->link());
+            $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
+            $this->assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
+        }
     }
 
     public function testShow()
