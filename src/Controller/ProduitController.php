@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
-use App\Form\ProduitType;
+use App\Entity\Element;
+use App\Form\ElementType;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+
 
 /**
  * @Route("/produits")
@@ -34,6 +37,15 @@ class ProduitController extends Controller
             return $this->redirectToRoute('produits_index');
         }
 
-        return $this->render('produit/show.html.twig', ['produit' => $produit]);
+        $element = new Element();
+        $element->setProduit($produit);
+        $element->setQuantity(1);
+        $form = $this->createForm(ElementType::class, $element);
+
+        return $this->render('produit/show.html.twig', [
+            'produit' => $produit,
+            'form' => $form->createView(),
+            ]
+        );
     }
 }

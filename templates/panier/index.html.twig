@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block container %}
+
+<div class="row">
+    <table id="cart" class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th style="width:50%">Produit</th>
+                <th style="width:10%">Prix</th>
+                <th style="width:8%">Quantité</th>
+                <th style="width:22%" class="text-center">Sous-Total</th>
+                <th style="width:10%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for element in panier.elements %}
+                <tr>
+                    <td data-th="Produit">
+                        <div class="row">
+                            <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                            <div class="col-sm-10">
+                                <h4 class="nomargin"> {{ element.produit.nom}}</h4>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-th="Price">{{ element.produit.prix }}€</td>
+                    <td data-th="Quantite">
+                        <input type="number" class="form-control text-center" value="{{ element.quantity }}">
+                    </td>
+                    <td data-th="Sous-Total" class="text-center">{{ element.sousTotal }}€</td>
+                    <td class="actions" data-th="">
+                        <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continuer le shopping</a></td>
+                <td colspan="2" class="hidden-xs"></td>
+                <td class="hidden-xs text-center"><strong>Total {{ panier.total }}€</strong></td>
+                <td><a href="#" class="btn btn-danger btn-block">Vider le panier <i class="fa fa-angle-right"></i></a></td>
+            </tr>
+        </tfoot>
+    </table>
+<div>
+
+{% endblock %}

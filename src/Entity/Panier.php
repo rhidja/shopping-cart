@@ -13,6 +13,16 @@ class Panier
         $this->elements = new ArrayCollection();
     }
 
+    public function getTotal()
+    {
+        $total = 0;
+        foreach ($this->elements as $element) {
+            $total += $element->getQuantity() * $element->getProduit()->getPrix();
+        }
+
+        return $total;
+    }
+
     /**
      * Add element
      *
