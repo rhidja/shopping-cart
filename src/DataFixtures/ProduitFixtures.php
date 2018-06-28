@@ -9,7 +9,7 @@ class ProduitFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $produits =['Iphone 8', 'Iphone X', 'Ipad', 'Iwatch', 'Sony Z5', 'Samsung Edge', 'Samsung Galaxy','HTC One','MacBook Pro', 'HP ZBook x2', 'AZUS ZenBook Pro', 'Lenovo Yoga 3', 'DELL XPS 13 2-en-1'];
+        $produits =['Iphone X', 'Ipad', 'Iwatch', 'Sony Z5', 'Samsung Edge', 'Samsung Galaxy','HTC One','MacBook Pro', 'HP ZBook x2', 'AZUS ZenBook Pro', 'Lenovo Yoga 3', 'DELL XPS 13 2-en-1'];
 
         foreach ($produits as $prod) {
             $produit = new Produit();
@@ -20,19 +20,5 @@ class ProduitFixtures extends Fixture
         }
 
         $manager->flush();
-    }
-
-    private function randString(){
-        $n = 20;
-        $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        $l = strlen($characters);
-
-        $str = "P";
-        for ($i = 0; $i < $n; $i++) {
-            $str .= $characters[rand(0, $l)];
-        }
-
-        return $str;
     }
 }

@@ -3,88 +3,49 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
-use App\Form\ProduitType;
+use App\Entity\Element;
+use App\Form\ElementType;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+
 
 /**
- * @Route("/produit")
+ * @Route("/produits")
  */
 class ProduitController extends Controller
 {
     /**
-     * @Route("/", name="produit_index", methods="GET")
+     * @Route("/", name="produits_index", methods="GET")
      */
     public function index(ProduitRepository $produitRepository): Response
     {
-        return $this->render('produit/index.html.twig', ['produits' => $produitRepository->findAll()]);
+        return $this->render('produit/index.html.twig', ['produits' => $produitRepository->findAllOrderByNom()]);
     }
 
     /**
-     * @Route("/new", name="produit_new", methods="GET|POST")
+     * @Route("/{id}", name="produits_show", methods="GET")
      */
-    public function new(Request $request): Response
+    public function show(Produit $produit = null): Response
     {
-        $produit = new Produit();
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
+        if (null === $produit) {
+            $this->addFlash('notice', ['type' => 'danger', 'title' =>'Oops!', 'message' => "Ce produit n'existe pas."]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($produit);
-            $em->flush();
-
-            return $this->redirectToRoute('produit_index');
+            return $this->redirectToRoute('produits_index');
         }
 
-        return $this->render('produit/new.html.twig', [
+        $element = new Element();
+        $element->setProduit($produit);
+        $element->setQuantity(1);
+        $form = $this->createForm(ElementType::class, $element);
+
+        return $this->render('produit/show.html.twig', [
             'produit' => $produit,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="produit_show", methods="GET")
-     */
-    public function show(Produit $produit): Response
-    {
-        return $this->render('produit/show.html.twig', ['produit' => $produit]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="produit_edit", methods="GET|POST")
-     */
-    public function edit(Request $request, Produit $produit): Response
-    {
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('produit_edit', ['id' => $produit->getId()]);
-        }
-
-        return $this->render('produit/edit.html.twig', [
-            'produit' => $produit,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="produit_delete", methods="DELETE")
-     */
-    public function delete(Request $request, Produit $produit): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($produit);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('produit_index');
+            ]
+        );
     }
 }

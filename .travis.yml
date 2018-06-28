@@ -36,12 +36,16 @@ before-install:
 install:
   - composer install
   - cp .env.dist .env
+  - cp phpunit.xml.dist phpunit.xml
+  #- php-cs-fixer fix src/
+  #- php-cs-fixer fix tests/
   #- php bin/console doctrine:database:drop --force
   - php bin/console doctrine:database:create
   #- php bin/console make:migration
   - php bin/console --no-interaction doctrine:migrations:migrate
   - php bin/console --no-interaction doctrine:fixtures:load
   - npm install @symfony/webpack-encore --save-dev
+  - yarn run encore dev
 
 # Run script
 script:

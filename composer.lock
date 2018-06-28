@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2cc55529373695ba3e91ac523a6d6f77",
+    "content-hash": "406e9423188a0f00f1d7ee1e5c4090dd",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -5478,16 +5478,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.1.1",
+            "version": "v3.4.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "c7f28cbf2df4e9deed7fc376ca4f146eaa5afc8a"
+                "reference": "8a21eb6bedad38bf1f15d529c65eb9e17d0242fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/c7f28cbf2df4e9deed7fc376ca4f146eaa5afc8a",
-                "reference": "c7f28cbf2df4e9deed7fc376ca4f146eaa5afc8a",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/8a21eb6bedad38bf1f15d529c65eb9e17d0242fd",
+                "reference": "8a21eb6bedad38bf1f15d529c65eb9e17d0242fd",
                 "shasum": ""
             },
             "require": {
@@ -5506,7 +5506,7 @@
             "type": "symfony-bridge",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "3.4-dev"
                 },
                 "thanks": {
                     "name": "phpunit/phpunit",
@@ -5540,7 +5540,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-06-11T12:56:28+00:00"
+            "time": "2018-06-10T07:25:02+00:00"
         },
         {
             "name": "symfony/profiler-pack",
