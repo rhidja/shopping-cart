@@ -27,6 +27,17 @@ class PanierControllerTest extends WebTestCase
         return $crawler;
     }
 
+    /**
+     * @depends testIndex
+     */
+    public function testContinuerShoping($crawler)
+    {
+        $link = $crawler->filter('a[title="Continuer le shopping"]')->attr('href');
+        $crawler = $this->client->request('GET', $link);
+        $this->assertSame('Liste des produits', $crawler->filter('title')->text());
+        $this->assertEquals(12, $crawler->filter('figure.card')->count());
+    }
+
     public function testPlus()
     {
         $this->client = static::createClient();
@@ -50,7 +61,7 @@ class PanierControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('tbody tr')->count());
         $this->assertNotSame('Votre panier est vide', trim($crawler->filter('tbody tr')->text()));
 
-        return $crawler; 
+        return $crawler;
     }
 
     /**

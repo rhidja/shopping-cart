@@ -42,6 +42,19 @@ class ProduitControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/produits/1');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
+
+        return $crawler;
+    }
+
+    /**
+     * @depends testShow
+     */
+    public function testRetourListProduits($crawler)
+    {
+        $link = $crawler->filter('a[title="Liste des produits"]')->attr('href');
+        $crawler = $this->client->request('GET', $link);
+        $this->assertSame('Liste des produits', $crawler->filter('title')->text());
+        $this->assertEquals(12, $crawler->filter('figure.card')->count());
     }
 
     public function testNotFound()
