@@ -47,7 +47,13 @@
                 <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continuer le shopping</a></td>
                 <td colspan="2" class="hidden-xs"></td>
                 <td class="hidden-xs text-center"><strong>Total {{ panier.total }}€</strong></td>
-                <td><a href="#" class="btn btn-danger btn-block">Vider le panier <i class="fa fa-angle-right"></i></a></td>
+                <td>
+                    {{ form_start(form, {'action' : path('panier_vider')}) }}
+                    {{ form_errors(form) }}
+                        <button class="btn btn-danger btn-block" type="submit">Vider le panier <i class="fa fa-angle-right"></i></button>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </td>
             </tr>
         </tfoot>
     </table>

@@ -21,6 +21,7 @@ class PanierControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/panier/');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertSame('Mon panier', $crawler->filter('title')->text());
+        $this->assertEquals(1, $crawler->filter('tbody tr')->count());
         $this->assertSame('Votre panier est vide', trim($crawler->filter('tbody tr')->text()));
 
         return $crawler;
@@ -48,5 +49,23 @@ class PanierControllerTest extends WebTestCase
         $this->assertSame('Mon panier', $crawler->filter('title')->text());
         $this->assertEquals(1, $crawler->filter('tbody tr')->count());
         $this->assertNotSame('Votre panier est vide', trim($crawler->filter('tbody tr')->text()));
+
+        return $crawler; 
+    }
+
+    /**
+     * @depends testPlus
+     */
+    public function testViderPanier($crawler)
+    {
+        $form = $crawler->selectButton('Vider le panier')->form();
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect());
+        $crawler = $this->client->followRedirect();
+
+        $this->assertSame('Mon panier', $crawler->filter('title')->text());
+        $this->assertEquals(1, $crawler->filter('tbody tr')->count());
+        $this->assertSame('Votre panier est vide', trim($crawler->filter('tbody tr')->text()));
     }
 }

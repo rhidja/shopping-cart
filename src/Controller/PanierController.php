@@ -26,13 +26,19 @@ class PanierController extends Controller
 
         if($panier == null){
             $panier = new Panier();
+            $this->get('session')->set('panier', $panier);
         }
+
+        $form = $this->createPanierForm();
 
         // print '<pre>';
         // print_r($panier);
         // print '<pre>';
 
-        return $this->render('panier/index.html.twig', ['panier' => $panier]);
+        return $this->render('panier/index.html.twig', [
+            'panier' => $panier,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -49,10 +55,12 @@ class PanierController extends Controller
 
             $panier = $this->get('session')->get('panier');
 
-            if ($panier === null) {
+            if($panier == null){
                 $panier = new Panier();
-                $panier->addElement($element);
-            }else{
+                $this->get('session')->set('panier', $panier);
+            }
+
+            if (!$panier->getElements()->isEmpty()) {
                 $exists = false;
                 $elements = $panier->getElements();
 
@@ -68,6 +76,8 @@ class PanierController extends Controller
                 if(!$exists){
                     $panier->addElement($element);
                 }
+            }else{
+                $panier->addElement($element);
             }
 
             $this->get('session')->set('panier', $panier);
@@ -85,10 +95,27 @@ class PanierController extends Controller
     }
 
     /**
-     * @Route("/moins", name="panier_vider", methods="POST")
+     * @Route("/vider", name="panier_vider", methods="POST")
      */
     public function vider(Request $request): Response
     {
-        $this->get('session')->set('panier', null);
+        $panier = new Panier();
+        $this->get('session')->set('panier', $panier);
+
+        return $this->redirectToRoute('panier_index');
+    }
+
+    private function createPanierForm()
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('panier_vider'))
+            ->setMethod('POST')
+            ->getForm()
+        ;
+    }
+
+    public function ifEmptySession()
+    {
+        # code...
     }
 }
