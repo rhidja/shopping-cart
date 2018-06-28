@@ -23,6 +23,16 @@ class Panier
         return $total;
     }
 
+    public function getCount(): float
+    {
+        $count = 0;
+        foreach ($this->elements as $element) {
+            $count += $element->getQuantity();
+        }
+
+        return $count;
+    }
+
     /**
      * Add element
      *

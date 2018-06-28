@@ -31,10 +31,6 @@ class PanierController extends Controller
 
         $form = $this->createPanierForm();
 
-        // print '<pre>';
-        // print_r($panier);
-        // print '<pre>';
-
         return $this->render('panier/index.html.twig', [
             'panier' => $panier,
             'form' => $form->createView(),
