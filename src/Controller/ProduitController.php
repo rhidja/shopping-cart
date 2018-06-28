@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProduitController extends Controller
 {
     /**
-     * @Route("/", name="produit_index", methods="GET")
+     * @Route("/", name="produits_index", methods="GET")
      */
     public function index(ProduitRepository $produitRepository): Response
     {
@@ -24,10 +24,16 @@ class ProduitController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="produit_show", methods="GET")
+     * @Route("/{id}", name="produits_show", methods="GET")
      */
-    public function show(Produit $produit): Response
+    public function show(Produit $produit = null): Response
     {
+        if (null === $produit) {
+            $this->addFlash('notice', ['type' => 'danger', 'title' =>'Oops!', 'message' => "Ce produit n'existe pas."]);
+
+            return $this->redirectToRoute('produits_index');
+        }
+
         return $this->render('produit/show.html.twig', ['produit' => $produit]);
     }
 }

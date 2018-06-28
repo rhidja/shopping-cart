@@ -17,7 +17,7 @@
             				</div> <!-- rating-wrap.// -->
             		</figcaption>
             		<div class="bottom-wrap">
-            			<a href="" class="btn btn-sm btn-primary float-right">Voir la fiche</a>
+            			<a href="{{ path('produits_show', {id : produit.id }) }}" class="btn btn-sm btn-primary float-right" title="Voir la fiche">Voir la fiche</a>
             			<div class="price-wrap h5">
             				<span class="price-new">{{ produit.prix }}€</span>
             			</div> <!-- price-wrap.// -->

@@ -1,34 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit{% endblock %}
+{% block title %}Détail d'un produit{% endblock %}
 
-{% block body %}
-    <h1>Produit</h1>
+{% block container %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ produit.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ produit.nom }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ produit.description }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ produit.prix }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="card text-center mb-3">
+        <img class="card-img-top" src="http://placehold.it/1107x400" alt="Card image cap">
+        <div class="card-body">
+            <h3 class="card-title">{{ produit.nom }}</h3>
+            <p class="card-text">{{ produit.description }}</p>
+        </div>
+        <div class="card-footer">
+            <form class="form-inline my-2 my-lg-0 pull-right">
+                <input class="form-control mr-sm-1" type="number" min="0" aria-label="Search" value=1> x
+                <button class="btn my-2 my-sm-0 mr-sm-3" disabled>{{ produit.prix }}€</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to cart</button>
+            </form>
+        </div>
+    </div>
 
-    <a href="{{ path('produit_index') }}">back to list</a>
-
-    <a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
-
-    {{ include('produit/_delete_form.html.twig') }}
 {% endblock %}
