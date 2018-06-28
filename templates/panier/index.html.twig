@@ -40,7 +40,11 @@
                         <td data-th="Sous-Total" class="text-center">{{ element.sousTotal }}€</td>
                         <td class="actions" data-th="">
                             <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-                            <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+
+                            <form action="{{ path('panier_element_supprimer') }}" method="post">
+                                <input type="hidden" name="produit_id" value="{{ element.produit.id }}" />
+                                <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                            </form>
                         </td>
                     </tr>
                 {% else %}

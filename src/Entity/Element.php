@@ -6,14 +6,7 @@ use App\Entity\Produit;
 
 class Element
 {
-    /**
-     * @var int
-     */
     private $quantity;
-
-    /**
-     *
-     */
     private $produit;
 
     public function getQuantity(): int

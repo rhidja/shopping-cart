@@ -38,7 +38,7 @@ class PanierControllerTest extends WebTestCase
         $this->assertEquals(12, $crawler->filter('figure.card')->count());
     }
 
-    public function testPlus()
+    public function testAjouter()
     {
         $this->client = static::createClient();
         $crawler = $this->client->request('GET', '/produits/1');
@@ -48,8 +48,8 @@ class PanierControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add to cart')->form();
 
         // Hydrater le formulaire
-        $form['element[quantity]'] = 2;
-        $form['element[produit]']->select(1);
+        $form['element[quantity]'] = mt_rand(1,5);
+        $form['element[produit]']->select(mt_rand(1,12));
 
         $this->client->submit($form);
 
@@ -65,7 +65,7 @@ class PanierControllerTest extends WebTestCase
     }
 
     /**
-     * @depends testPlus
+     * @depends testAjouter
      */
     public function testViderPanier($crawler)
     {

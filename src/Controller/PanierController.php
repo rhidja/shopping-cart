@@ -29,7 +29,7 @@ class PanierController extends Controller
             $this->get('session')->set('panier', $panier);
         }
 
-        $form = $this->createPanierForm();
+        $form = $this->createViderPanierForm();
 
         return $this->render('panier/index.html.twig', [
             'panier' => $panier,
@@ -38,9 +38,9 @@ class PanierController extends Controller
     }
 
     /**
-     * @Route("/plus", name="panier_plus", methods="POST")
+     * @Route("/ajouter", name="panier_ajouter", methods="POST")
      */
-    public function plus(Request $request): Response
+    public function ajouter(Request $request): Response
     {
         $element = new Element();
         $form = $this->createForm(ElementType::class, $element);
@@ -83,11 +83,39 @@ class PanierController extends Controller
     }
 
     /**
-     * @Route("/moins", name="panier_moins", methods="POST")
+     * @Route("/element/modifier", name="panier_moins", methods="POST")
      */
-    public function moins(Request $request): Response
+    public function modifier(Request $request): Response
     {
         return $this->render('produit/show.html.twig', ['produit' => $produit]);
+    }
+
+    /**
+     * @Route("/element/supprimer", name="panier_element_supprimer", methods="POST")
+     */
+    public function supprimer(Request $request): Response
+    {
+        $produitId = $request->get('produit_id');
+
+        $panier = $this->get('session')->get('panier');
+
+        if($panier == null){
+            $panier = new Panier();
+            $this->get('session')->set('panier', $panier);
+        }
+
+        if (!$panier->getElements()->isEmpty()) {
+
+            $elements = $panier->getElements();
+            foreach ($elements as $element) {
+                if($element->getProduit()->getId() == $produitId){
+                    $panier->getElements()->removeElement($element);
+                    break;
+                }
+            }
+        }
+
+        return $this->redirectToRoute('panier_index');
     }
 
     /**
@@ -101,7 +129,7 @@ class PanierController extends Controller
         return $this->redirectToRoute('panier_index');
     }
 
-    private function createPanierForm()
+    private function createViderPanierForm()
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('panier_vider'))
