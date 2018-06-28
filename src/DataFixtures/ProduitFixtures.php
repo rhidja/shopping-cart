@@ -21,18 +21,4 @@ class ProduitFixtures extends Fixture
 
         $manager->flush();
     }
-
-    private function randString(){
-        $n = 20;
-        $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        $l = strlen($characters);
-
-        $str = "P";
-        for ($i = 0; $i < $n; $i++) {
-            $str .= $characters[rand(0, $l)];
-        }
-
-        return $str;
-    }
 }

@@ -23,7 +23,7 @@ class ProduitControllerTest extends WebTestCase
         $this->assertSame('Liste des produits', $crawler->filter('title')->text());
         $this->assertEquals(12, $crawler->filter('figure.card')->count());
 
-        return $crawler;;
+        return $crawler;
     }
 
     /**
