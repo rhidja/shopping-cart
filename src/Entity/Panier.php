@@ -13,7 +13,7 @@ class Panier
         $this->elements = new ArrayCollection();
     }
 
-    public function getTotal()
+    public function getTotal(): float
     {
         $total = 0;
         foreach ($this->elements as $element) {
@@ -28,7 +28,7 @@ class Panier
      *
      * @param \App\Entity\Element $element
      *
-     * @return Project
+     * @return Panier
      */
     public function addElement(\App\Entity\Element $element)
     {
@@ -52,7 +52,7 @@ class Panier
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getElements()
+    public function getElements(): ArrayCollection
     {
         return $this->elements;
     }

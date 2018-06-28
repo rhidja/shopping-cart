@@ -2,17 +2,26 @@
 
 namespace App\Entity;
 
+use App\Entity\Produit;
+
 class Element
 {
+    /**
+     * @var int
+     */
     private $quantity;
+
+    /**
+     *
+     */
     private $produit;
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
-        return $this->quantity;
+        return (int)$this->quantity;
     }
 
-    public function setQuantity($quantity)
+    public function setQuantity($quantity): self
     {
         $this->quantity = $quantity;
 
@@ -24,14 +33,14 @@ class Element
         return $this->produit;
     }
 
-    public function setProduit($produit)
+    public function setProduit(Produit $produit): self
     {
         $this->produit = $produit;
 
         return $this;
     }
 
-    public function getSousTotal()
+    public function getSousTotal(): float
     {
         return $this->produit->getPrix() * $this->quantity;
     }
