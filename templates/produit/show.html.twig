@@ -11,6 +11,7 @@
             <p class="card-text">{{ produit.description }}</p>
         </div>
         <div class="card-footer">
+            <a href="{{ path('produits_index') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Liste des produits</a>
             {{ include("produit/_form.html.twig") }}
         </div>
     </div>
