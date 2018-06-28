@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Panier{% endblock %}
+{% block title %}Mon panier{% endblock %}
 
 {% block container %}
 
@@ -36,8 +36,11 @@
                         <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                     </td>
                 </tr>
+            {% else %}
+                    <tr>
+                        <td colspan="5">Votre panier est vide</td>
+                    </tr>
             {% endfor %}
-
         </tbody>
         <tfoot>
             <tr>

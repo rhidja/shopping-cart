@@ -23,7 +23,10 @@ class PanierController extends Controller
     public function panier(): Response
     {
         $panier = $this->get('session')->get('panier');
-        //$this->get('session')->set('panier', null);
+
+        if($panier == null){
+            $panier = new Panier();
+        }
 
         // print '<pre>';
         // print_r($panier);
