@@ -37,6 +37,8 @@ install:
   - composer install
   - cp .env.dist .env
   - cp phpunit.xml.dist phpunit.xml
+  - mkdir exports/
+  - chmod 777 -R exports/
   #- php-cs-fixer fix src/
   #- php-cs-fixer fix tests/
   #- php bin/console doctrine:database:drop --force
