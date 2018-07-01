@@ -35,6 +35,7 @@ before-install:
 # Create database, schema and fixtures
 install:
   - composer install
+  - mkdir -p var/exports/
   - chmod 777 -R var/
   - cp .env.dist .env
   - cp phpunit.xml.dist phpunit.xml
