@@ -1,80 +1,59 @@
 # Shopping Cart
+Cette application a été réalisé avec le framewrok Symfony version 4.
 
-# Features
+-   demo : lexik.hidja.fr
+-   api : lexik.hidja.fr/api/prodtuis
+
+### Fonctionalités
   - Affichage de tous les produits sur la page d'accueil
   - Affichage de la fiche d'un produit
   - Ajout d'un produit dans le panier
-  - Supprimer un produit dans le panier
-  - Vider le panier
-  - Un espace backoffice "easyadmin" pour la gestion des produits
+  - Supprimer un produit du panier
   - Affichage de la liste des produits dans un panier
-  - Application testé
-  - Exportation de données sous format CSV et TXT
-  - Point d'accès API http://SERVER/api/produits
+  - Vider le panier
+  - Un espace backoffice pour la gestion des produits
+  - Exportation des données sous format csv ou txt
+  `php bin/console app:exporter csv`
+  - Tests unitaires et fonctionnels
 
-### Tech
+### Techs
 
-Pour installer cette application il faut installer au préalable un certain nombre d'application, voir leurs doccumentation officiel.
-* Composer,
-* NodeJs
+Pour installer cette application, il faut installer au préalable un certain nombre d'application, voir leurs doccumentation officiel.
+* Git
+* Composer
 * Yarn
 * PHPUnit
 
-Utilisation de travis-ci pour l'intégration continue.
-
 ### Installation
 
-Cloner cette application à partir de mon compte Github:
+A l'aide de Git cloner cette application à partir de mon compte Github sur votre serveur:
 
 ```
 $ git clone https://github.com/rhidja/lexik.git
 ```
 
-Aller dans le dossier lexik pour installer les dépendances de l'application
+Aller dans le dossier "lexik" et changer les variables d'environnement dans le fichier .`env`
+Par la suite, ouvrir le fichier `install.sh` et personnaliser les variables au début du fichier.
+Puis lancer les commandes suivantes
 
 ```
-$ cd lexik
-$ composer install
+$ cd lexik/
+$ chmod +x install.sh
+$ sudo ./install.sh
 ```
 
-Executer les commandes suivantes pour changer les paramètres de la base de données
+Le script `install.sh` permets de :
 
-```
-$ sed -i -e "s/db_user/DB_USER/g" .env
-$ sed -i -e "s/db_password/DB_PASSWORD/g" .env
-$ sed -i -e "s/db_name/DB_NAME/g" .env
-```
+- Installer les composants de symfony dans le dossier vendor
+- Créer la base de données
+- Faire la migration de la base de données
+- Charger les fixtures
+- Installer les composants JS
+- Faire le dump des assetics
 
-Créer un dossier pous les exports
+Attention : ce script supprime toutes les données qui sont dans la base de données.
 
-```
-$ mkdir exports/
-$ chmod 777 -R exports/
-```
-
-Executer les commandes suivantes pour la création de la base de données
-
-```
-$ php bin/console doctrine:database:drop --force
-$ php bin/console doctrine:database:create
-$ php bin/console make:migration
-$ php bin/console --no-interaction doctrine:migrations:migrate
-```
-
-Executer la commande suivante pour charger les fixtures
-
-```
-$ php bin/console --no-interaction doctrine:fixtures:load
-```
-
-Installer les composants JS
-
-```
-$ npm install @symfony/webpack-encore --save-dev
-$ yarn run encore dev
-
-```
-Executer les tests unitaires
+Pour exectuer les tests unitaires lancer les commandes suivantes :
 
 ```
 $ cp phpunit.xml.dist phpunit.xml
