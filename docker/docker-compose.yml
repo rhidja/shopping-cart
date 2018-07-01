@@ -1,0 +1,7 @@
+lexik-app:
+    build: .
+    restart: always
+    volumes:
+        - ../wwww/:/var/www/html/
+    ports:
+        - 9000:9000
