@@ -42,9 +42,9 @@ $ chmod +x install.sh
 $ sudo ./install.sh
 ```
 
-Le script `install.sh` permets de :
+Le script `install.sh` sert à déployer cette application sur un serveur apache2, elle permet de :
 
-- Installer les composants de symfony dans le dossier vendor
+- Installer les tous les composants de Symfony dans le dossier vendor
 - Créer la base de données
 - Faire la migration de la base de données
 - Charger les fixtures
@@ -53,7 +53,7 @@ Le script `install.sh` permets de :
 
 Attention : ce script supprime toutes les données qui sont dans la base de données.
 
-Pour exectuer les tests unitaires lancer les commandes suivantes :
+Pour exécuter les tests unitaires lancer les commandes suivantes :
 
 ```
 $ cp phpunit.xml.dist phpunit.xml
