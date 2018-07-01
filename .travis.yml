@@ -35,6 +35,7 @@ before-install:
 # Create database, schema and fixtures
 install:
   - composer install
+  - chmod 777 -R var/
   - cp .env.dist .env
   - cp phpunit.xml.dist phpunit.xml
   #- php-cs-fixer fix src/
