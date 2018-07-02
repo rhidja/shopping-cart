@@ -20,6 +20,7 @@ Cette application a été réalisé avec le framewrok [Symfony](https://symfony.
 
 Pour installer cette application, il faut installer au préalable un certain nombre d'application, voir leurs documentation officiel.
 * Un serveur apache2
+* Un serveur de base de données : MySQL, PostgreSQL,...
 * [Git](https://git-scm.com/)
 * [Composer](https://getcomposer.org/)
 * [Yarn](https://yarnpkg.com/lang/en/docs/install/#debian-stable)

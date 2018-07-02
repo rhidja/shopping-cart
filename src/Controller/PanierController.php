@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 /**
  * @Route("/panier")
@@ -42,19 +44,14 @@ class PanierController extends Controller
      */
     public function ajouter(Request $request): Response
     {
+        $panier = $this->getPanier();
+
         $element = new Element();
         $form = $this->createForm(ElementType::class, $element);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $panier = $this->get('session')->get('panier');
-
-            if($panier == null){
-                $panier = new Panier();
-                $this->get('session')->set('panier', $panier);
-            }
 
             if (!$panier->getElements()->isEmpty()) {
                 $exists = false;
@@ -75,19 +72,46 @@ class PanierController extends Controller
             }else{
                 $panier->addElement($element);
             }
-
-            $this->get('session')->set('panier', $panier);
         }
+
+        $this->get('session')->set('panier', $panier);
 
         return $this->redirectToRoute('panier_index');
     }
 
     /**
-     * @Route("/element/modifier", name="panier_moins", methods="POST")
+     * @Route("/modifier", name="panier_modifier", methods="POST")
      */
-    public function modifier(Request $request): Response
+    public function modifier(Request $request): JsonResponse
     {
-        return $this->render('produit/show.html.twig', ['produit' => $produit]);
+        $panier = $this->getPanier();
+
+        $produitId = $request->get('produit_id');
+        $quantity = $request->get('quantity');
+
+
+        if (!$panier->getElements()->isEmpty()) {
+
+            $elements = $panier->getElements();
+            foreach ($elements as $key => $element) {
+                if($element->getProduit()->getId() == $produitId){
+                    if($quantity == 0 ){
+                        $panier->getElements()->removeElement($element);
+                    }else{
+                        $panier->getElements()->get($key)->setQuantity($quantity);
+                    }
+
+                    $response=["status" => "ok", "message" => "Quantity mise à jours"];
+                    break;
+                }
+            }
+        }else{
+            $response=["status" => "ko", "message" => "Produit non existant"];
+        }
+
+        $this->get('session')->set('panier', $panier);
+
+        return new JsonResponse($response);
     }
 
     /**
@@ -95,14 +119,9 @@ class PanierController extends Controller
      */
     public function supprimer(Request $request): Response
     {
+        $panier = $this->getPanier();
+
         $produitId = $request->get('produit_id');
-
-        $panier = $this->get('session')->get('panier');
-
-        if($panier == null){
-            $panier = new Panier();
-            $this->get('session')->set('panier', $panier);
-        }
 
         if (!$panier->getElements()->isEmpty()) {
 
@@ -114,6 +133,8 @@ class PanierController extends Controller
                 }
             }
         }
+
+        $this->get('session')->set('panier', $panier);
 
         return $this->redirectToRoute('panier_index');
     }
@@ -138,8 +159,15 @@ class PanierController extends Controller
         ;
     }
 
-    public function ifEmptySession()
+    public function getPanier()
     {
-        # code...
+        $panier = $this->get('session')->get('panier');
+
+        if($panier == null){
+            $panier = new Panier();
+            $this->get('session')->set('panier', $panier);
+        }
+
+        return $panier;
     }
 }
