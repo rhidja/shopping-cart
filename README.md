@@ -1,8 +1,8 @@
 # Shopping Cart
-Cette application a été réalisé avec le framewrok Symfony version 4.
+Cette application a été réalisé avec le framewrok [Symfony](https://symfony.com/) version 4.
 
--   demo : lexik.hidja.fr
--   api : lexik.hidja.fr/api/prodtuis
+-   demo : [lexik.hidja.fr](lexik.hidja.fr)
+-   api : [lexik.hidja.fr/api/produits](lexik.hidja.fr/api/produits)
 
 ### Fonctionalités
   - Affichage de tous les produits sur la page d'accueil
@@ -18,15 +18,15 @@ Cette application a été réalisé avec le framewrok Symfony version 4.
 
 ### Techs
 
-Pour installer cette application, il faut installer au préalable un certain nombre d'application, voir leurs doccumentation officiel.
-* Git
-* Composer
-* Yarn
-* PHPUnit
+Pour installer cette application, il faut installer au préalable un certain nombre d'application, voir leurs documentation officiel.
+* Un serveur apache2
+* [Git](https://git-scm.com/)
+* [Composer](https://getcomposer.org/)
+* [Yarn](https://yarnpkg.com/lang/en/docs/install/#debian-stable)
 
 ### Installation
 
-A l'aide de Git cloner cette application à partir de mon compte Github sur votre serveur:
+A l'aide de Git cloner cette application à partir de mon compte [Github](https://github.com/rhidja/lexik) sur votre serveur:
 
 ```
 $ git clone https://github.com/rhidja/lexik.git
@@ -42,7 +42,7 @@ $ chmod +x install.sh
 $ sudo ./install.sh
 ```
 
-Le script `install.sh` sert à déployer cette application sur un serveur apache2, elle permet de :
+Le script `install.sh` sert à déployer cette application sur un serveur apache2, il permet de :
 
 - Installer les tous les composants de Symfony dans le dossier vendor
 - Créer la base de données
