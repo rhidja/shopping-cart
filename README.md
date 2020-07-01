@@ -1,8 +1,8 @@
 # Shopping Cart
 Cette application a été réalisé avec le framewrok [Symfony](https://symfony.com/) version 4.
 
--   demo : [lexik.hidja.fr](lexik.hidja.fr)
--   api : [lexik.hidja.fr/api/produits](lexik.hidja.fr/api/produits)
+-   demo : [cart.hidja.fr](cart.hidja.fr)
+-   api : [cart.hidja.fr/api/produits](cart.hidja.fr/api/produits)
 
 ### Fonctionalités
   - Affichage de tous les produits sur la page d'accueil
@@ -27,18 +27,18 @@ Pour installer cette application, il faut installer au préalable un certain nom
 
 ### Installation
 
-A l'aide de Git cloner cette application à partir de mon compte [Github](https://github.com/rhidja/lexik) sur votre serveur:
+A l'aide de Git cloner cette application à partir de mon compte [Github](https://github.com/rhidja/cart) sur votre serveur:
 
 ```
 $ git clone https://github.com/rhidja/lexik.git
 ```
 
-Aller dans le dossier "lexik" et changer les variables d'environnement dans le fichier .`env`
+Aller dans le dossier "cart" et changer les variables d'environnement dans le fichier .`env`
 Par la suite, ouvrir le fichier `install.sh` et personnaliser les variables au début du fichier.
 Puis lancer les commandes suivantes
 
 ```
-$ cd lexik/
+$ cd cart/
 $ chmod +x install.sh
 $ sudo ./install.sh
 ```
