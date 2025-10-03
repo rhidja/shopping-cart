@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Repository\ProduitRepository;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * ExporterService.
@@ -10,15 +12,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ExporterService
 {
     private $file;
-    private $exportDir;
 
-    private $produitRepository;
-
-    public function __construct(ProduitRepository $produitRepository, ContainerInterface $container)
-    {
-        $this->exportDir = $container->getParameter('export_dir');
-        $this->produitRepository = $produitRepository;
-    }
+    public function __construct(
+        private readonly ProduitRepository $produitRepository,
+        #[Autowire('%export_dir%')]
+        private readonly string $exportDir
+    )
+    {}
 
     public function exporterProduits($format)
     {
@@ -26,7 +26,7 @@ class ExporterService
 
         $produits = $this->produitRepository->findAllOrderByNom();
 
-        $method = 'export'.ucfirst($format);
+        $method = 'export'.ucfirst((string) $format);
         if (method_exists($this, $method)) {
             $this->$method($produits);
         }
@@ -60,7 +60,7 @@ class ExporterService
                 $produit->getDescription(),
             ];
 
-            $line = implode($data, "\t");
+            $line = implode("\t", $data);
 
             fputs($this->file, $line."\n");
         }

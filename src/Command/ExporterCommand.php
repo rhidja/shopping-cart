@@ -1,37 +1,33 @@
 <?php
-// src/Command/ExporterCommand.php
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Service\ExporterService;
-use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Attribute\Argument;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
-class ExporterCommand extends Command
+#[AsCommand(
+    name: 'app:create-user',
+    description: 'Exporter sous format csv.',
+    help: "Cette commande permet d'exporter les données sous format CSV"
+)]
+class ExporterCommand
 {
     const FORMAT_CSV = 'csv';
     const FORMAT_TXT = 'txt';
 
-    private $exporterService;
-
-    public function __construct(ExporterService $exporterService)
+    public function __construct(private readonly ExporterService $exporterService)
     {
-        $this->exporterService = $exporterService;
-
-        parent::__construct();
     }
 
-    protected function configure()
-    {
-        $this
-            ->setName('app:exporter')
-            ->addArgument('format', InputArgument::REQUIRED, 'The format is required.')
-            ->setDescription('Exporter sous format csv.')
-            ->setHelp("Cette commande permet d'exporter les données sous format CSV");
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
+    public function __invoke(
+        #[Argument('The format is required.')] string $format,
+        InputInterface $input,
+        OutputInterface $output
+    ): int
     {
         $format = $input->getArgument('format');
 
@@ -44,5 +40,7 @@ class ExporterCommand extends Command
         }else{
             $output->writeln([ "Oops! : le format '$format' n'est pas supporté par la commande!\n"]);
         }
+
+        return Command::SUCCESS;
     }
 }

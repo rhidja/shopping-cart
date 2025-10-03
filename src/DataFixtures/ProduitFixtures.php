@@ -1,13 +1,15 @@
 <?php
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\Produit;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class ProduitFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $produits =['Iphone X', 'Ipad', 'Iwatch', 'Sony Z5', 'Samsung Edge', 'Samsung Galaxy','HTC One','MacBook Pro', 'HP ZBook x2', 'AZUS ZenBook Pro', 'Lenovo Yoga 3', 'DELL XPS 13 2-en-1'];
 
