@@ -16,7 +16,7 @@ class ProduitRepositoryTest extends KernelTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
@@ -38,7 +38,7 @@ class ProduitRepositoryTest extends KernelTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

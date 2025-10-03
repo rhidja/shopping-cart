@@ -23,7 +23,7 @@ class ExporterServiceTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = self::bootKernel();
         $this->container = $kernel->getContainer();
@@ -95,7 +95,7 @@ class ExporterServiceTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

@@ -20,14 +20,14 @@ class ExporterCommandTest extends KernelTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = self::bootKernel();
         $container = $kernel->getContainer();
         $produitRepository = $container->get('doctrine')
                                        ->getManager()
                                        ->getRepository(Produit::class);
-        $this->exporterService = new ExporterService($produitRepository, $container);
+        $this->exporterService = new ExporterService($produitRepository, '');
     }
 
     public function testExecute()

@@ -1,19 +1,21 @@
 {
     "type": "project",
     "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "require": {
         "php": ">=8.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-pcntl": "*",
-        "doctrine/dbal": "^3.10.1",
-        "doctrine/doctrine-bundle": "^2.15.1",
-        "doctrine/doctrine-migrations-bundle": "^3.4",
-        "doctrine/orm": "^3.5.1",
-        "easycorp/easyadmin-bundle": "^4.25",
-        "phpdocumentor/reflection-docblock": "^5.6.2",
-        "phpstan/phpdoc-parser": "^2.2",
-        "symfony/console": "^7.3",
+        "doctrine/dbal": "^3.10.2",
+        "doctrine/doctrine-bundle": "^2.16.2",
+        "doctrine/doctrine-migrations-bundle": "^3.4.2",
+        "doctrine/orm": "^3.5.2",
+        "easycorp/easyadmin-bundle": "^4.25.1",
+        "phpdocumentor/reflection-docblock": "^5.6.3",
+        "phpstan/phpdoc-parser": "^2.3",
+        "symfony/console": "^7.3.4",
         "symfony/dotenv": "7.3.*",
         "symfony/expression-language": "7.3.*",
         "symfony/form": "7.3.*",
@@ -24,7 +26,7 @@
         "symfony/property-access": "7.3.*",
         "symfony/property-info": "7.3.*",
         "symfony/runtime": "7.3.*",
-        "symfony/security-bundle": "*",
+        "symfony/security-bundle": ">=7.3.4",
         "symfony/security-csrf": "7.3.*",
         "symfony/serializer": "7.3.*",
         "symfony/twig-bundle": "7.3.*",
@@ -34,27 +36,27 @@
         "twig/twig": "^2.12|^3.21.1"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "*",
+        "dama/doctrine-test-bundle": "^8.3.1",
+        "doctrine/doctrine-fixtures-bundle": ">=4.1",
         "phpunit/phpunit": "^12.4",
-        "rector/rector": "^2.1",
-        "symfony/browser-kit": "^7.3",
+        "rector/rector": "^2.1.7",
+        "symfony/browser-kit": "^7.3.2",
         "symfony/css-selector": "^7.3",
         "symfony/debug-bundle": "7.3.*",
-        "symfony/flex": "^2.8",
+        "symfony/flex": "^2.8.2",
         "symfony/maker-bundle": "^1.64",
-        "symfony/phpunit-bridge": "^7.3",
         "symfony/stopwatch": "7.3.*",
-        "symfony/web-profiler-bundle": "7.3.*"
+        "symfony/web-profiler-bundle": "7.3.*",
+        "zenstruck/foundry": "^2.7.2"
     },
     "config": {
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true,
         "allow-plugins": {
+            "php-http/discovery": true,
             "symfony/flex": true,
             "symfony/runtime": true
-        }
+        },
+        "bump-after-update": true,
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {
@@ -93,7 +95,8 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false
+            "allow-contrib": false,
+            "require": "7.3.*"
         }
     }
 }
