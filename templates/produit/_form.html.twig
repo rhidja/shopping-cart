@@ -1,4 +1,4 @@
-{{ form_start(form, {'action' : path('panier_ajouter') ,'attr': {'class': 'form-inline my-2 my-lg-0 pull-right'}}) }}
+{{ form_start(form, {'action' : path('app_panier_ajouter') ,'attr': {'class': 'form-inline my-2 my-lg-0 pull-right'}}) }}
 {{ form_errors(form) }}
     {{ form_widget(form.quantity, {'attr': {'class': 'form-control mr-sm-1', 'min' : 1}}) }} x
     <button class="btn my-2 my-sm-0 mr-sm-3" disabled>{{ produit.prix }}€</button>
