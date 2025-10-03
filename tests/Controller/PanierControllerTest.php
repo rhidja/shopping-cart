@@ -1,6 +1,6 @@
 <?php
+declare(strict_types=1);
 
-// tests/Controller/PanierControllerTest.php
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -22,7 +22,7 @@ class PanierControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertSame('Mon panier', $crawler->filter('title')->text());
         $this->assertEquals(1, $crawler->filter('tbody tr')->count());
-        $this->assertSame('Votre panier est vide', trim($crawler->filter('tbody tr')->text()));
+        $this->assertSame('Votre panier est vide', trim((string) $crawler->filter('tbody tr')->text()));
 
         return $crawler;
     }
@@ -59,7 +59,7 @@ class PanierControllerTest extends WebTestCase
 
         $this->assertSame('Mon panier', $crawler->filter('title')->text());
         $this->assertEquals(1, $crawler->filter('tbody tr')->count());
-        $this->assertNotSame('Votre panier est vide', trim($crawler->filter('tbody tr')->text()));
+        $this->assertNotSame('Votre panier est vide', trim((string) $crawler->filter('tbody tr')->text()));
 
         return $crawler;
     }
@@ -77,6 +77,6 @@ class PanierControllerTest extends WebTestCase
 
         $this->assertSame('Mon panier', $crawler->filter('title')->text());
         $this->assertEquals(1, $crawler->filter('tbody tr')->count());
-        $this->assertSame('Votre panier est vide', trim($crawler->filter('tbody tr')->text()));
+        $this->assertSame('Votre panier est vide', trim((string) $crawler->filter('tbody tr')->text()));
     }
 }

@@ -1,5 +1,6 @@
 <?php
-// tests/Command/ExporterCommandTest.php
+declare(strict_types=1);
+
 namespace App\Tests\Command;
 
 use App\Entity\Produit;
@@ -42,10 +43,10 @@ class ExporterCommandTest extends KernelTestCase
         $format = 'php';
 
         if(!in_array($format, [self::FORMAT_CSV, self::FORMAT_TXT])){
-            $commandTester->execute(array(
+            $commandTester->execute([
                 'command'  => $command->getName(),
                 'format' => $format,
-            ));
+            ]);
 
             $output = $commandTester->getDisplay();
             $this->assertContains("Oops! : le format '$format' n'est pas supporté par la commande!\n", $output);

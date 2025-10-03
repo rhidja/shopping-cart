@@ -1,15 +1,17 @@
 <?php
-// tests/Controller/Api/ProduitControllerTest.php
+declare(strict_types=1);
+
 namespace App\Tests\Controller\Api;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduitControllerTest extends WebTestCase
 {
-    private $client = null;
+    private KernelBrowser $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = static::createClient();
     }
@@ -17,10 +19,11 @@ class ProduitControllerTest extends WebTestCase
     public function testApiIndex()
     {
         $this->client->request('GET', '/api/produits/');
+
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertContentType();
 
-        $produits = json_decode($this->client->getResponse()->getContent(), true);
+        $produits = json_decode((string) $this->client->getResponse()->getContent(), true);
         $this->assertCount(12, $produits);
 
         $this->hasKeys($produits, ['id', 'nom', 'description']);
@@ -39,7 +42,7 @@ class ProduitControllerTest extends WebTestCase
             $this->assertTrue($this->client->getResponse()->isSuccessful());
             $this->assertContentType();
 
-            $prod = json_decode($this->client->getResponse()->getContent(), true);
+            $prod = json_decode((string) $this->client->getResponse()->getContent(), true);
             $keys = array_keys($produit);
             $this->hasKeys([$prod], $keys);
             $this->notEmpty([$produit], ['id', 'nom']);

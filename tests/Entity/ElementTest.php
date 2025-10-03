@@ -1,5 +1,6 @@
 <?php
-// tests/Entity/ElementTest.php
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\Element;

@@ -1,12 +1,11 @@
 <?php
-// tests/Service/ExporterServiceTest.php
+declare(strict_types=1);
+
 namespace App\Tests\Service;
 
 use App\Service\ExporterService;
 use App\Entity\Produit;
-use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Console\Tester\CommandTester;
 
 class ExporterServiceTest extends WebTestCase
 {
