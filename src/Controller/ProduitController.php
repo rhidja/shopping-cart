@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -6,29 +7,23 @@ use App\Entity\Produit;
 use App\Entity\Element;
 use App\Form\ElementType;
 use App\Repository\ProduitRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 
-/**
- * @Route("/produits")
- */
-class ProduitController extends Controller
+#[Route('/produits')]
+class ProduitController extends AbstractController
 {
-    /**
-     * @Route("/", name="produits_index", methods="GET")
-     */
+    #[Route('/', name: 'app_produits_index', methods: ['GET'])]
     public function index(ProduitRepository $produitRepository): Response
     {
-        return $this->render('produit/index.html.twig', ['produits' => $produitRepository->findAllOrderByNom()]);
+        return $this->render('produit/index.html.twig', [
+            'produits' => $produitRepository->findAllOrderByNom()
+        ]);
     }
 
-    /**
-     * @Route("/{id}", name="produits_show", methods="GET")
-     */
+    #[Route('/{id}', name: 'app_produits_show', methods: ['GET'])]
     public function show(Produit $produit = null): Response
     {
         if (null === $produit) {

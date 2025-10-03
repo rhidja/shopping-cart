@@ -14,11 +14,13 @@
             	<figure class="card card-product">
             		<div class="img-wrap"><img src="http://placehold.it/350x222"></div>
             		<figcaption class="info-wrap">
-            				<h4 class="title"><a href="{{ path('produits_show', {'id' : produit.id}) }}" >{{ produit.nom}}</a></h4>
+            				<h4 class="title"><a href="{{ path('app_produits_show', {'id' : produit.id}) }}" >{{ produit.nom}}</a></h4>
             				<p class="desc">{{ produit.description|slice(0, 70) }}...</p><!-- rating-wrap.// -->
             		</figcaption>
             		<div class="bottom-wrap">
-            			<a href="{{ path('produits_show', {id : produit.id }) }}" class="btn btn-sm btn-primary float-right" title="Voir la fiche">Voir la fiche</a>
+            			<a href="{{ path('app_produits_show', {id : produit.id }) }}" class="btn btn-sm btn-primary float-right" title="Voir la fiche">
+                            Voir la fiche
+                        </a>
             			<div class="price-wrap h5">
             				<span class="price-new">{{ produit.prix }}€</span>
             			</div> <!-- price-wrap.// -->
