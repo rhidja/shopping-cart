@@ -51,12 +51,12 @@ class Panier
     /**
      * @return Collection<int, Element>
      */
-    public function getTasks(): Collection
+    public function getElements(): Collection
     {
         return $this->elements;
     }
 
-    public function addTask(Element $element): static
+    public function addElement(Element $element): static
     {
         if (!$this->elements->contains($element)) {
             $this->elements->add($element);
@@ -66,7 +66,7 @@ class Panier
         return $this;
     }
 
-    public function removeTask(Element $element): static
+    public function removeElement(Element $element): static
     {
         if ($this->elements->removeElement($element)) {
             // set the owning side to null (unless already changed)

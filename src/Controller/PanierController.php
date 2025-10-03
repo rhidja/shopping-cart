@@ -1,34 +1,37 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
 use App\Entity\Panier;
-use App\Entity\Produit;
 use App\Entity\Element;
 use App\Form\ElementType;
-use App\Repository\ProduitRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
-/**
- * @Route("/panier")
- */
-class PanierController extends Controller
+#[Route('/panier')]
+class PanierController extends AbstractController
 {
-    /**
-     * @Route("/", name="panier_index", methods="GET")
-     */
-    public function panier(): Response
+    public function __construct(private RequestStack $requestStack)
     {
-        $panier = $this->get('session')->get('panier');
+    }
+
+    #[Route('/', name: 'app_panier_index', methods: ['GET'])]
+    public function panier(Request $request): Response
+    {
+        $session = $request->getSession();
+
+        $panier = $session->get('panier');
 
         if($panier == null){
             $panier = new Panier();
-            $this->get('session')->set('panier', $panier);
+            $session->set('panier', $panier);
         }
 
         $form = $this->createViderPanierForm();
@@ -39,9 +42,7 @@ class PanierController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/ajouter", name="panier_ajouter", methods="POST")
-     */
+    #[Route('/ajouter', name: 'app_panier_ajouter', methods: ['POST'])]
     public function ajouter(Request $request): Response
     {
         $panier = $this->getPanier();
@@ -74,14 +75,12 @@ class PanierController extends Controller
             }
         }
 
-        $this->get('session')->set('panier', $panier);
+        $request->getSession()->set('panier', $panier);
 
-        return $this->redirectToRoute('panier_index');
+        return $this->redirectToRoute('app_panier_index');
     }
 
-    /**
-     * @Route("/modifier", name="panier_modifier", methods="POST")
-     */
+    #[Route('/modifier', name: 'app_panier_modifier', methods: ['POST'])]
     public function modifier(Request $request): JsonResponse
     {
         $panier = $this->getPanier();
@@ -109,14 +108,12 @@ class PanierController extends Controller
             $response=["status" => "ko", "message" => "Produit non existant"];
         }
 
-        $this->get('session')->set('panier', $panier);
+        $request->getSession()->set('panier', $panier);
 
         return new JsonResponse($response);
     }
 
-    /**
-     * @Route("/element/supprimer", name="panier_element_supprimer", methods="POST")
-     */
+    #[Route('/element/supprimer', name: 'app_panier_element_supprimer', methods: ['POST'])]
     public function supprimer(Request $request): Response
     {
         $panier = $this->getPanier();
@@ -134,38 +131,38 @@ class PanierController extends Controller
             }
         }
 
-        $this->get('session')->set('panier', $panier);
+        $request->getSession()->set('panier', $panier);
 
-        return $this->redirectToRoute('panier_index');
+        return $this->redirectToRoute('app_panier_index');
     }
 
-    /**
-     * @Route("/vider", name="panier_vider", methods="POST")
-     */
+    #[Route('/vider', name: 'app_panier_vider', methods: ['POST'])]
     public function vider(Request $request): Response
     {
         $panier = new Panier();
-        $this->get('session')->set('panier', $panier);
+        $request->getSession()->set('panier', $panier);
 
-        return $this->redirectToRoute('panier_index');
+        return $this->redirectToRoute('app_panier_index');
     }
 
-    private function createViderPanierForm()
+    private function createViderPanierForm(): FormInterface
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('panier_vider'))
+            ->setAction($this->generateUrl('app_panier_vider'))
             ->setMethod('POST')
             ->getForm()
         ;
     }
 
-    public function getPanier()
+    public function getPanier(): Panier
     {
-        $panier = $this->get('session')->get('panier');
+        $session = $this->requestStack->getSession();
+
+        $panier = $session->get('panier');
 
         if($panier == null){
             $panier = new Panier();
-            $this->get('session')->set('panier', $panier);
+            $session->set('panier', $panier);
         }
 
         return $panier;
