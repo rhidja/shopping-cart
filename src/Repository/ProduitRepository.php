@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -19,7 +20,7 @@ class ProduitRepository extends ServiceEntityRepository
     /**
      * @return Produit[] Returns an array of Produit objects
      */
-    public function findAllOrderByNom()
+    public function findAllOrderByNom(): array
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.nom', 'ASC')

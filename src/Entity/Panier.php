@@ -1,12 +1,27 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\PanierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity(repositoryClass: PanierRepository::class)]
+#[ORM\Table(name: 'app_panier')]
 class Panier
 {
-    private $elements;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
+
+    /**
+     * @var Collection<int, Element>
+     */
+    #[ORM\OneToMany(targetEntity: Element::class, mappedBy: 'panier', cascade: ['persist'], orphanRemoval: true)]
+    private Collection $elements;
 
     public function __construct()
     {
@@ -34,36 +49,32 @@ class Panier
     }
 
     /**
-     * Add element
-     *
-     * @param \App\Entity\Element $element
-     *
-     * @return Panier
+     * @return Collection<int, Element>
      */
-    public function addElement(\App\Entity\Element $element)
+    public function getTasks(): Collection
     {
-        $this->elements[] = $element;
+        return $this->elements;
+    }
+
+    public function addTask(Element $element): static
+    {
+        if (!$this->elements->contains($element)) {
+            $this->elements->add($element);
+            $element->setPanier($this);
+        }
 
         return $this;
     }
 
-    /**
-     * Remove element
-     *
-     * @param \App\Entity\Element $element
-     */
-    public function removeElement(\App\Entity\Element $element)
+    public function removeTask(Element $element): static
     {
-        $this->elements->removeElement($element);
-    }
+        if ($this->elements->removeElement($element)) {
+            // set the owning side to null (unless already changed)
+            if ($element->getPanier() === $this) {
+                $element->setPanier(null);
+            }
+        }
 
-    /**
-     * Get elements
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getElements(): ArrayCollection
-    {
-        return $this->elements;
+        return $this;
     }
 }
