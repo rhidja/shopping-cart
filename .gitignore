@@ -1,3 +1,6 @@
+###> phpstorm ###
+/.idea
+###< phpstorm ###
 
 ###> symfony/framework-bundle ###
 /.env

@@ -16,6 +16,10 @@
         <env name="SHELL_VERBOSITY" value="-1" />
         <!-- define your env variables for the test env here -->
         <env name="DATABASE_URL" value="mysql://root@127.0.0.1:3306/db_lexik" />
+
+        <!-- ###+ symfony/mailer ### -->
+        <env name="MAILER_DSN" value="null://null"/>
+        <!-- ###- symfony/mailer ### -->
     </php>
 
     <testsuites>

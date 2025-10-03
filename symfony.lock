@@ -23,6 +23,15 @@
     "doctrine/dbal": {
         "version": "v2.5.13"
     },
+    "doctrine/deprecations": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "87424683adc81d7dc305eefec1fced883084aab9"
+        }
+    },
     "doctrine/doctrine-bundle": {
         "version": "1.6",
         "recipe": {
@@ -245,6 +254,18 @@
     "symfony/lts": {
         "version": "v3"
     },
+    "symfony/mailer": {
+        "version": "7.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.3",
+            "ref": "09051cfde49476e3c12cd3a0e44289ace1c75a4f"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -415,6 +436,9 @@
             "version": "1.0",
             "ref": "4851df0afc426b8f07204379d21fca25b6df5d68"
         }
+    },
+    "twig/extra-bundle": {
+        "version": "v3.21.0"
     },
     "twig/twig": {
         "version": "v2.4.8"
