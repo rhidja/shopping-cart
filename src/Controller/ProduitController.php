@@ -29,7 +29,7 @@ class ProduitController extends AbstractController
         if (null === $produit) {
             $this->addFlash('notice', ['type' => 'danger', 'title' =>'Oops!', 'message' => "Ce produit n'existe pas."]);
 
-            return $this->redirectToRoute('produits_index');
+            return $this->redirectToRoute('app_produits_index');
         }
 
         $element = new Element();

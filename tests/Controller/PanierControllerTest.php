@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Response;
 
 class PanierControllerTest extends WebTestCase
@@ -17,7 +19,6 @@ class PanierControllerTest extends WebTestCase
 
     public function testIndex()
     {
-        $this->client = static::createClient();
         $crawler = $this->client->request('GET', '/panier/');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertSame('Mon panier', $crawler->filter('title')->text());
@@ -27,10 +28,8 @@ class PanierControllerTest extends WebTestCase
         return $crawler;
     }
 
-    /**
-     * @depends testIndex
-     */
-    public function testContinuerShoping($crawler)
+    #[Depends('testIndex')]
+    public function testContinuerShoping($crawler): void
     {
         $link = $crawler->filter('a[title="Continuer le shopping"]')->attr('href');
         $crawler = $this->client->request('GET', $link);
@@ -38,9 +37,8 @@ class PanierControllerTest extends WebTestCase
         $this->assertEquals(12, $crawler->filter('figure.card')->count());
     }
 
-    public function testAjouter()
+    public function testAjouter(): Crawler
     {
-        $this->client = static::createClient();
         $crawler = $this->client->request('GET', '/produits/1');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
@@ -49,7 +47,7 @@ class PanierControllerTest extends WebTestCase
 
         // Hydrater le formulaire
         $form['element[quantity]'] = mt_rand(1,5);
-        $form['element[produit]']->select(mt_rand(1,12));
+        $form['element[produit]']->select((string)mt_rand(1,12));
 
         $this->client->submit($form);
 
@@ -64,10 +62,8 @@ class PanierControllerTest extends WebTestCase
         return $crawler;
     }
 
-    /**
-     * @depends testAjouter
-     */
-    public function testViderPanier($crawler)
+    #[Depends('testAjouter')]
+    public function testViderPanier($crawler): void
     {
         $form = $crawler->selectButton('Vider le panier')->form();
         $this->client->submit($form);
