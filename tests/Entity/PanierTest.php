@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class PanierTest extends TestCase
 {
-    public function testSousTotal()
+    public function testSousTotal(): void
     {
         $panier  = new Panier();
 
@@ -36,7 +36,7 @@ class PanierTest extends TestCase
         $this->assertEquals($total, $panier->getTotal());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $panier  = new Panier();
 
