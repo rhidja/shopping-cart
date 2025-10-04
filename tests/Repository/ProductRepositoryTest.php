@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Repository;
 
-use App\Entity\Produit;
+use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class ProduitRepositoryTest extends KernelTestCase
+class ProductRepositoryTest extends KernelTestCase
 {
     private ?EntityManagerInterface $entityManager;
 
@@ -26,8 +26,8 @@ class ProduitRepositoryTest extends KernelTestCase
     public function testFindAllOrderByNom(): void
     {
         $products = $this->entityManager
-            ->getRepository(Produit::class)
-            ->findAllOrderByNom()
+            ->getRepository(Product::class)
+            ->findAllOrderByName()
         ;
 
         $this->assertCount(12, $products);
