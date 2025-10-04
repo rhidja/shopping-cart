@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Response;
 
-class PanierControllerTest extends WebTestCase
+class CartControllerTest extends WebTestCase
 {
     private $client = null;
 
@@ -19,35 +19,35 @@ class PanierControllerTest extends WebTestCase
 
     public function testIndex()
     {
-        $crawler = $this->client->request('GET', '/panier/');
+        $crawler = $this->client->request('GET', '/cart/');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertSame('Mon panier', $crawler->filter('title')->text());
+        $this->assertSame('My Cart', $crawler->filter('title')->text());
         $this->assertEquals(1, $crawler->filter('tbody tr')->count());
-        $this->assertSame('Votre panier est vide', trim((string) $crawler->filter('tbody tr')->text()));
+        $this->assertSame('Your cart is empty', trim((string) $crawler->filter('tbody tr')->text()));
 
         return $crawler;
     }
 
     #[Depends('testIndex')]
-    public function testContinuerShoping($crawler): void
+    public function testContinueShopping($crawler): void
     {
-        $link = $crawler->filter('a[title="Continuer le shopping"]')->attr('href');
+        $link = $crawler->filter('a[title="Continue shopping"]')->attr('href');
         $crawler = $this->client->request('GET', $link);
-        $this->assertSame('Liste des produits', $crawler->filter('title')->text());
+        $this->assertSame('List of products', $crawler->filter('title')->text());
         $this->assertEquals(12, $crawler->filter('figure.card')->count());
     }
 
-    public function testAjouter(): Crawler
+    public function testAddItem(): Crawler
     {
         $crawler = $this->client->request('GET', '/1');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
+        $this->assertSame("Product details", $crawler->filter('title')->text());
 
         $form = $crawler->selectButton('Add to cart')->form();
 
         // Hydrater le formulaire
-        $form['element[quantity]'] = mt_rand(1,5);
-        $form['element[produit]']->select((string)mt_rand(1,12));
+        $form['item[quantity]'] = mt_rand(1,5);
+        $form['item[product]']->select((string)mt_rand(1,12));
 
         $this->client->submit($form);
 
@@ -55,24 +55,24 @@ class PanierControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isRedirect());
         $crawler = $this->client->followRedirect();
 
-        $this->assertSame('Mon panier', $crawler->filter('title')->text());
+        $this->assertSame('My Cart', $crawler->filter('title')->text());
         $this->assertEquals(1, $crawler->filter('tbody tr')->count());
-        $this->assertNotSame('Votre panier est vide', trim((string) $crawler->filter('tbody tr')->text()));
+        $this->assertNotSame('Your cart is empty', trim((string) $crawler->filter('tbody tr')->text()));
 
         return $crawler;
     }
 
-    #[Depends('testAjouter')]
-    public function testViderPanier($crawler): void
+    #[Depends('testAddItem')]
+    public function testEmptyCart($crawler): void
     {
-        $form = $crawler->selectButton('Vider le panier')->form();
+        $form = $crawler->selectButton('Empty the cart')->form();
         $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isRedirect());
         $crawler = $this->client->followRedirect();
 
-        $this->assertSame('Mon panier', $crawler->filter('title')->text());
+        $this->assertSame('My Cart', $crawler->filter('title')->text());
         $this->assertEquals(1, $crawler->filter('tbody tr')->count());
-        $this->assertSame('Votre panier est vide', trim((string) $crawler->filter('tbody tr')->text()));
+        $this->assertSame('Your cart is empty', trim((string) $crawler->filter('tbody tr')->text()));
     }
 }
