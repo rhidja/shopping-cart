@@ -3,22 +3,19 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Repository\ProduitRepository;
 use App\Service\ExporterService;
 use App\Entity\Produit;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ExporterServiceTest extends WebTestCase
 {
-    const FORMAT_CSV = 'csv';
-    const FORMAT_TXT = 'txt';
+    const string FORMAT_CSV = 'csv';
+    const string FORMAT_TXT = 'txt';
 
-    /**
-     * @var \App\Repository\ProduitRepository
-     */
-    private $container;
-    private $produitRepository;
+    private ProduitRepository $produitRepository;
     private $file;
-    private $exportDir;
+    private string $exportDir;
 
     /**
      * {@inheritDoc}
@@ -26,17 +23,17 @@ class ExporterServiceTest extends WebTestCase
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
-        $this->container = $kernel->getContainer();
-        $this->produitRepository = $this->container->get('doctrine')
+        $container = $kernel->getContainer();
+        $this->produitRepository = $container->get('doctrine')
                                                    ->getManager()
                                                    ->getRepository(Produit::class);
-        $this->exportDir = $this->container->getParameter('export_dir');
+        $this->exportDir = $container->getParameter('export_dir');
     }
 
     public function testProduitsExporter()
     {
         $produits = $this->produitRepository->findAllOrderByNom();
-        $exporterService = new ExporterService($this->produitRepository, $this->container);
+        $exporterService = new ExporterService($this->produitRepository, $this->exportDir);
 
         foreach ([self::FORMAT_CSV, self::FORMAT_TXT] as $format) {
             $exporterService->exporterProduits($format);

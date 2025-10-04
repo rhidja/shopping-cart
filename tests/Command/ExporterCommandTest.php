@@ -3,20 +3,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use App\Command\ExporterCommand;
 use App\Entity\Produit;
 use App\Service\ExporterService;
-use App\Command\ExporterCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class ExporterCommandTest extends KernelTestCase
 {
-    private $exporterService;
-
-    const FORMAT_CSV = 'csv';
-    const FORMAT_TXT = 'txt';
-
     /**
      * {@inheritDoc}
      */
@@ -30,26 +25,23 @@ class ExporterCommandTest extends KernelTestCase
         $this->exporterService = new ExporterService($produitRepository, '');
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-
-        $application->add(new ExporterCommand($this->exporterService));
 
         $command = $application->find('app:exporter');
         $commandTester = new CommandTester($command);
 
         $format = 'php';
 
-        if(!in_array($format, [self::FORMAT_CSV, self::FORMAT_TXT])){
+        if(!in_array($format, ExporterCommand::getFormats())){
             $commandTester->execute([
-                'command'  => $command->getName(),
                 'format' => $format,
             ]);
 
             $output = $commandTester->getDisplay();
-            $this->assertContains("Oops! : le format '$format' n'est pas supporté par la commande!\n", $output);
+            static::assertStringContainsString("Oops! : le format '{$format}' n'est pas supporté par la commande!\n", $output);
         }
     }
 }
