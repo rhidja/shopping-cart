@@ -1,26 +1,30 @@
 <?php
-// tests/Controller/Api/ProduitControllerTest.php
+declare(strict_types=1);
+
 namespace App\Tests\Controller\Api;
 
+use PHPUnit\Framework\Attributes\Depends;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduitControllerTest extends WebTestCase
 {
-    private $client = null;
+    private KernelBrowser $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = static::createClient();
     }
 
-    public function testApiIndex()
+    public function testApiIndex(): array
     {
         $this->client->request('GET', '/api/produits/');
+
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertContentType();
 
-        $produits = json_decode($this->client->getResponse()->getContent(), true);
+        $produits = json_decode((string) $this->client->getResponse()->getContent(), true);
         $this->assertCount(12, $produits);
 
         $this->hasKeys($produits, ['id', 'nom', 'description']);
@@ -29,17 +33,15 @@ class ProduitControllerTest extends WebTestCase
         return $produits;
     }
 
-    /**
-     * @depends testApiIndex
-     */
-    public function testApiShow($produits)
+    #[Depends('testApiIndex')]
+    public function testApiShow($produits): void
     {
         foreach ($produits as $produit) {
             $this->client->request('GET', '/api/produits/'.$produit['id']);
             $this->assertTrue($this->client->getResponse()->isSuccessful());
             $this->assertContentType();
 
-            $prod = json_decode($this->client->getResponse()->getContent(), true);
+            $prod = json_decode((string) $this->client->getResponse()->getContent(), true);
             $keys = array_keys($produit);
             $this->hasKeys([$prod], $keys);
             $this->notEmpty([$produit], ['id', 'nom']);
@@ -47,10 +49,8 @@ class ProduitControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * @depends testApiIndex
-     */
-    public function testNotFound($produits)
+    #[Depends('testApiIndex')]
+    public function testNotFound($produits): void
     {
         $ids = array_column($produits, 'id');
         $id = mt_rand(1, 1000000);
@@ -61,13 +61,13 @@ class ProduitControllerTest extends WebTestCase
 
         $this->client->request('GET', '/api/produits/'.$id);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Aucun produit ne correspond a cette Id",
             $this->client->getResponse()->getContent()
         );
     }
 
-    private function hasKeys($produits, $keys)
+    private function hasKeys($produits, $keys): void
     {
         foreach ($produits as $produit) {
             foreach ($keys as $key) {
@@ -76,7 +76,7 @@ class ProduitControllerTest extends WebTestCase
         }
     }
 
-    public function notEmpty($produits, $keys)
+    public function notEmpty($produits, $keys): void
     {
         foreach ($produits as $produit) {
             foreach ($keys as $key) {
@@ -86,7 +86,7 @@ class ProduitControllerTest extends WebTestCase
         }
     }
 
-    public function compareValues($produit, $prod)
+    public function compareValues($produit, $prod): void
     {
         foreach ($produit as $key => $value) {
             $this->assertEquals($value, $prod[$key]);
@@ -96,7 +96,7 @@ class ProduitControllerTest extends WebTestCase
     /**
      * Assert that the "Content-Type" header is "application/json"
      */
-    private function assertContentType()
+    private function assertContentType(): void
     {
         // Assert that the "Content-Type" header is "application/json"
         $this->assertTrue(

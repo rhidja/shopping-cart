@@ -6,18 +6,19 @@ namespace App\Command;
 use App\Service\ExporterService;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'app:create-user',
+    name: 'app:exporter',
     description: 'Exporter sous format csv.',
     help: "Cette commande permet d'exporter les données sous format CSV"
 )]
 class ExporterCommand
 {
-    const FORMAT_CSV = 'csv';
-    const FORMAT_TXT = 'txt';
+    public const string FORMAT_CSV = 'csv';
+    public const string FORMAT_TXT = 'txt';
 
     public function __construct(private readonly ExporterService $exporterService)
     {
@@ -42,5 +43,13 @@ class ExporterCommand
         }
 
         return Command::SUCCESS;
+    }
+
+    public static function getFormats(): array
+    {
+        return [
+            self::FORMAT_CSV,
+            self::FORMAT_TXT,
+        ];
     }
 }

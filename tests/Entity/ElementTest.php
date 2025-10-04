@@ -1,5 +1,6 @@
 <?php
-// tests/Entity/ElementTest.php
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\Element;
@@ -8,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElementTest extends TestCase
 {
-    public function testSousTotal()
+    public function testSousTotal(): void
     {
         $quantity = mt_rand(1, 10);
         $prix = mt_rand(50, 1000);

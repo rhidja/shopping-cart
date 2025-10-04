@@ -1,34 +1,35 @@
 <?php
-// tests/Controller/ProduitControllerTest.php
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Depends;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProduitControllerTest extends WebTestCase
 {
-    private $client = null;
+    private KernelBrowser |null $client = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = static::createClient();
     }
 
-    public function testIndex()
+    public function testIndex(): Crawler
     {
-        $this->client = static::createClient();
         $crawler = $this->client->request('GET', '/produits/');
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertSame('Liste des produits', $crawler->filter('title')->text());
-        $this->assertEquals(12, $crawler->filter('figure.card')->count());
+        static::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        static::assertSame('Liste des produits', $crawler->filter('title')->text());
+        static::assertEquals(12, $crawler->filter('figure.card')->count());
 
         return $crawler;
     }
 
-    /**
-     * @depends testIndex
-     */
-    public function testVoirDetailBouton($crawler)
+    #[Depends('testIndex')]
+    public function testVoirDetailBouton($crawler): void
     {
         $links = $crawler->filter('a:contains("Voir la fiche")');
         $titles = $crawler->filter('figcaption h4');
@@ -40,10 +41,8 @@ class ProduitControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * @depends testIndex
-     */
-    public function testVoirDetailLienTitre($crawler)
+    #[Depends('testIndex')]
+    public function testVoirDetailLienTitre($crawler): void
     {
         $titles = $crawler->filter('figcaption h4 a');
 
@@ -54,7 +53,7 @@ class ProduitControllerTest extends WebTestCase
         }
     }
 
-    public function testShow()
+    public function testShow(): Crawler
     {
         $crawler = $this->client->request('GET', '/produits/1');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
@@ -63,21 +62,19 @@ class ProduitControllerTest extends WebTestCase
         return $crawler;
     }
 
-    /**
-     * @depends testShow
-     */
-    public function testRetourListProduits($crawler)
+    #[Depends('testShow')]
+    public function testRetourListProduits($crawler): void
     {
         $link = $crawler->filter('a[title="Liste des produits"]')->attr('href');
         $crawler = $this->client->request('GET', $link);
-        $this->assertSame('Liste des produits', $crawler->filter('title')->text());
-        $this->assertEquals(12, $crawler->filter('figure.card')->count());
+        static::assertSame('Liste des produits', $crawler->filter('title')->text());
+        static::assertEquals(12, $crawler->filter('figure.card')->count());
     }
 
-    public function testNotFound()
+    public function testNotFound(): void
     {
         $crawler = $this->client->request('GET', '/produits/1111111');
-        $this->assertTrue($this->client->getResponse()->isRedirect());
+        static::assertTrue($this->client->getResponse()->isRedirect());
         $crawler = $this->client->followRedirect();
     }
 }
