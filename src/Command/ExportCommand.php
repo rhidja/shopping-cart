@@ -39,7 +39,7 @@ class ExportCommand
 
             $output->writeln([ "Product list export completed.\n"]);
         }else{
-            $output->writeln([ "Oops! The format '$format' is not supported by the command!\n"]);
+            $output->writeln(["Oops! The format '$format' is not supported by the command!\n"]);
         }
 
         return Command::SUCCESS;

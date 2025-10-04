@@ -67,7 +67,7 @@ class CartItem
         return $this;
     }
 
-    public function getSousTotal(): float
+    public function getSubTotal(): float
     {
         return $this->product->getPrice() * $this->quantity;
     }
