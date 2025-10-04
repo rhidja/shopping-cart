@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\ProduitRepository;
+use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: ProduitRepository::class)]
-#[ORM\Table(name: 'app_produit')]
-class Produit
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\Table(name: 'app_product')]
+class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,27 +19,27 @@ class Produit
 
     #[Assert\NotBlank]
     #[ORM\Column]
-    private ?string $nom = null;
+    private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(type: 'integer')]
-    private ?int $prix = null;
+    private ?int $price = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function setNom(?string $nom): self
+    public function setName(?string $name): self
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
@@ -56,14 +56,14 @@ class Produit
         return $this;
     }
 
-    public function getPrix(): ?int
+    public function getPrice(): ?int
     {
-        return $this->prix;
+        return $this->price;
     }
 
-    public function setPrix(?int $prix): self
+    public function setPrice(?int $price): self
     {
-        $this->prix = $prix;
+        $this->price = $price;
 
         return $this;
     }

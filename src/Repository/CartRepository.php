@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Panier;
+use App\Entity\Cart;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Panier>
+ * @extends ServiceEntityRepository<Cart>
  */
-class PanierRepository extends ServiceEntityRepository
+class CartRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Panier::class);
+        parent::__construct($registry, Cart::class);
     }
 }

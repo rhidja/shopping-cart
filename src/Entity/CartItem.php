@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\ElementRepository;
+use App\Repository\CartItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ElementRepository::class)]
-#[ORM\Table(name: 'app_element')]
-class Element
+#[ORM\Entity(repositoryClass: CartItemRepository::class)]
+#[ORM\Table(name: 'app_cart_item')]
+class CartItem
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,13 +18,13 @@ class Element
     #[ORM\Column(type: 'integer')]
     private ?int $quantity = null;
 
-    #[ORM\ManyToOne(inversedBy: 'elements')]
+    #[ORM\ManyToOne(inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Produit $produit = null;
+    private ?Product $product = null;
 
-    #[ORM\ManyToOne(inversedBy: 'elements')]
+    #[ORM\ManyToOne(inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Panier $panier = null;
+    private ?Cart $cart = null;
 
     public function getId(): ?int
     {
@@ -43,32 +43,32 @@ class Element
         return $this;
     }
 
-    public function getProduit(): ?Produit
+    public function getProduct(): ?Product
     {
-        return $this->produit;
+        return $this->product;
     }
 
-    public function setProduit(?Produit $produit): self
+    public function setProduct(?Product $product): self
     {
-        $this->produit = $produit;
+        $this->product = $product;
 
         return $this;
     }
 
-    public function getPanier(): ?Panier
+    public function getCart(): ?Cart
     {
-        return $this->panier;
+        return $this->cart;
     }
 
-    public function setPanier(?Panier $panier): self
+    public function setCart(?Cart $cart): self
     {
-        $this->panier = $panier;
+        $this->cart = $cart;
 
         return $this;
     }
 
     public function getSousTotal(): float
     {
-        return $this->produit->getPrix() * $this->quantity;
+        return $this->product->getPrice() * $this->quantity;
     }
 }
