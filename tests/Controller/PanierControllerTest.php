@@ -39,7 +39,7 @@ class PanierControllerTest extends WebTestCase
 
     public function testAjouter(): Crawler
     {
-        $crawler = $this->client->request('GET', '/produits/1');
+        $crawler = $this->client->request('GET', '/1');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
 
