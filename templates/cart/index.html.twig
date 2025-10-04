@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Cart{% endblock %}
+
+{% block container %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>My cart</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <table id="cart" class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th style="width:50%">Product</th>
+                    <th style="width:10%">Price</th>
+                    <th style="width:8%">Quantity</th>
+                    <th style="width:22%" class="text-center">Sub-Total</th>
+                    <th style="width:10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items %}
+                    <tr>
+                        <td data-th="Product">
+                            <div class="row">
+                                <div class="col-sm-3 hidden-xs"><img src="http://placehold.co/100x100" alt="..." class="img-responsive"/></div>
+                                <div class="col-sm-9">
+                                    <h4 ><a href="{{ path('app_products_show', {'id' : item.product.id}) }}" >{{ item.product.name}}</a></h4>
+                                    <p>{{ item.product.description|slice(0, 80) }}...</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-th="Price">{{ item.product.price }}€</td>
+                        <td data-th="Quantity">
+                            <input type="number" name="quantity" class="form-control text-center" value="{{ item.quantity }}" />
+                        </td>
+                        <td data-th="Sous-Total" class="text-center">{{ item.sousTotal }}€</td>
+                        <td class="actions" data-th="">
+                            <button class="btn btn-info btn-sm refresh-quantity"><i class="fa fa-refresh"></i></button>
+
+                            <form action="{{ path('app_cart_item_delete') }}" method="post">
+                                <input type="hidden" name="product_id" value="{{ item.product.id }}" />
+                                <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                        <tr>
+                            <td colspan="5">Votre cart est vide</td>
+                        </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><a href="{{ path('app_products_index') }}" class="btn btn-warning" title="Continue shopping"><i class="fa fa-angle-left"></i> Continue shopping</a></td>
+                    <td colspan="2" class="hidden-xs"></td>
+                    <td class="hidden-xs text-center"><strong>Total {{ cart.total }}€</strong></td>
+                    <td>
+                        {{ form_start(form, {'action' : path('app_cart_empty')}) }}
+                        {{ form_errors(form) }}
+                            <button class="btn btn-danger btn-block" type="submit">Empty the cart <i class="fa fa-angle-right"></i></button>
+                        {{ form_rest(form) }}
+                        {{ form_end(form) }}
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    <div>
+
+{% endblock %}

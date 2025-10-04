@@ -1,8 +1,0 @@
-{{ form_start(form, {'action' : path('app_panier_ajouter') ,'attr': {'class': 'form-inline my-2 my-lg-0 pull-right'}}) }}
-{{ form_errors(form) }}
-    {{ form_widget(form.quantity, {'attr': {'class': 'form-control mr-sm-1', 'min' : 1}}) }} x
-    <button class="btn my-2 my-sm-0 mr-sm-3" disabled>{{ produit.prix }}€</button>
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to cart</button>
-    {{ form_widget(form.produit, {'attr': {'class': 'invisible'}}) }}
-{{ form_rest(form) }}
-{{ form_end(form) }}

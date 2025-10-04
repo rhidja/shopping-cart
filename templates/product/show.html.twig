@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détail d'un produit{% endblock %}
+{% block title %}Product details{% endblock %}
 
 {% block container %}
     <div class="row">
         <div class="col-md-12">
-            <h1>Fiche produit</h1>
+            <h1>Product details</h1>
         </div>
     </div>
     <div class="row">
@@ -13,14 +13,14 @@
             <div class="card text-center mb-3">
                 <img class="card-img-top" src="http://placehold.co/1107x400" alt="Card image cap">
                 <div class="card-body">
-                    <h3 class="card-title">{{ produit.nom }}</h3>
-                    <p class="card-text">{{ produit.description }}</p>
+                    <h3 class="card-title">{{ product.name }}</h3>
+                    <p class="card-text">{{ product.description }}</p>
                 </div>
                 <div class="card-footer">
-                    <a href="{{ path('app_produits_index') }}" class="btn btn-warning" title="Liste des produits">
-                        <i class="fa fa-angle-left"></i> Liste des produits
+                    <a href="{{ path('app_products_index') }}" class="btn btn-warning" title="List of products">
+                        <i class="fa fa-angle-left"></i> List of products
                     </a>
-                    {{ include("produit/_form.html.twig") }}
+                    {{ include("product/_form.html.twig") }}
                 </div>
             </div>
         </div>
