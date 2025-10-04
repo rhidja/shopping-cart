@@ -1,5 +1,5 @@
 # Shopping Cart
-Cette application a été réalisé avec le framewrok [Symfony](https://symfony.com/) version 4.
+Cette application a été réalisé avec le Framewrok [Symfony](https://symfony.com/) version 7.
 
 -   demo : [cart.hidja.fr](cart.hidja.fr)
 -   api : [cart.hidja.fr/api/produits](cart.hidja.fr/api/produits)
@@ -19,31 +19,24 @@ Cette application a été réalisé avec le framewrok [Symfony](https://symfony.
 ### Techs
 
 Pour installer cette application, il faut installer au préalable un certain nombre d'application, voir leurs documentation officiel.
-* Un serveur apache2
-* Un serveur de base de données : MySQL, PostgreSQL,...
+* [Docker](https://www.docker.com/) et son plugin [Docker Compose](https://docs.docker.com/compose/)
 * [Git](https://git-scm.com/)
 * [Composer](https://getcomposer.org/)
-* [Yarn](https://yarnpkg.com/lang/en/docs/install/#debian-stable)
 
 ### Installation
 
 A l'aide de Git cloner cette application à partir de mon compte [Github](https://github.com/rhidja/cart) sur votre serveur:
 
 ```
-$ git clone https://github.com/rhidja/lexik.git
+$ git clone https://github.com:rhidja/shopping-cart.git
 ```
 
-Aller dans le dossier "cart" et changer les variables d'environnement dans le fichier .`env`
-Par la suite, ouvrir le fichier `install.sh` et personnaliser les variables au début du fichier.
-Puis lancer les commandes suivantes
+Aller dans le projet et lancer la commande suivante :
 
 ```
-$ cd cart/
-$ chmod +x install.sh
-$ sudo ./install.sh
+$ cd shoping-cart/
+$ make init
 ```
-
-Le script `install.sh` sert à déployer cette application sur un serveur apache2, il permet de :
 
 - Installer les tous les composants de Symfony dans le dossier vendor
 - Créer la base de données
@@ -52,11 +45,8 @@ Le script `install.sh` sert à déployer cette application sur un serveur apache
 - Installer les composants JS
 - Faire le dump des assetics
 
-Attention : ce script supprime toutes les données qui sont dans la base de données.
-
 Pour exécuter les tests unitaires lancer les commandes suivantes :
 
 ```
-$ cp phpunit.xml.dist phpunit.xml
-$ vendor/bin/simple-phpunit
+$ make phpunit
 ```

@@ -20,7 +20,7 @@ class ProduitControllerTest extends WebTestCase
 
     public function testIndex(): Crawler
     {
-        $crawler = $this->client->request('GET', '/produits/');
+        $crawler = $this->client->request('GET', '/');
         static::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         static::assertSame('Liste des produits', $crawler->filter('title')->text());
         static::assertEquals(12, $crawler->filter('figure.card')->count());
@@ -55,7 +55,7 @@ class ProduitControllerTest extends WebTestCase
 
     public function testShow(): Crawler
     {
-        $crawler = $this->client->request('GET', '/produits/1');
+        $crawler = $this->client->request('GET', '/1');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
 
@@ -73,7 +73,7 @@ class ProduitControllerTest extends WebTestCase
 
     public function testNotFound(): void
     {
-        $crawler = $this->client->request('GET', '/produits/1111111');
+        $crawler = $this->client->request('GET', '/1111111');
         static::assertTrue($this->client->getResponse()->isRedirect());
         $crawler = $this->client->followRedirect();
     }
