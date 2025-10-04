@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use App\Command\ExporterCommand;
-use App\Entity\Produit;
-use App\Service\ExporterService;
+use App\Command\ExportCommand;
+use App\Entity\Product;
+use App\Service\ExportService;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class ExporterCommandTest extends KernelTestCase
+class ExportCommandTest extends KernelTestCase
 {
     /**
      * {@inheritDoc}
@@ -19,10 +19,10 @@ class ExporterCommandTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         $container = $kernel->getContainer();
-        $produitRepository = $container->get('doctrine')
+        $productRepository = $container->get('doctrine')
                                        ->getManager()
-                                       ->getRepository(Produit::class);
-        $this->exporterService = new ExporterService($produitRepository, '');
+                                       ->getRepository(Product::class);
+        $this->exporterService = new ExportService($productRepository, '');
     }
 
     public function testExecute(): void
@@ -30,18 +30,18 @@ class ExporterCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
 
-        $command = $application->find('app:exporter');
+        $command = $application->find('app:export');
         $commandTester = new CommandTester($command);
 
         $format = 'php';
 
-        if(!in_array($format, ExporterCommand::getFormats())){
+        if(!in_array($format, ExportCommand::getFormats())){
             $commandTester->execute([
                 'format' => $format,
             ]);
 
             $output = $commandTester->getDisplay();
-            static::assertStringContainsString("Oops! : le format '{$format}' n'est pas supporté par la commande!\n", $output);
+            static::assertStringContainsString("Oops! The format '$format' is not supported by the command!\n", $output);
         }
     }
 }
