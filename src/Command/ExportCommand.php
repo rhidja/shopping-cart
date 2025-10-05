@@ -32,17 +32,17 @@ class ExportCommand
     {
         $format = $input->getArgument('format');
 
-        if(in_array($format, [self::FORMAT_CSV, self::FORMAT_TXT])){
-            $output->writeln([ "Exporting the product list…\n"]);
-
-            $this->exporterService->exportProducts($format);
-
-            $output->writeln([ "Product list export completed.\n"]);
-        }else{
+        if(!in_array($format, [self::FORMAT_CSV, self::FORMAT_TXT])) {
             $output->writeln(["Oops! The format '$format' is not supported by the command!\n"]);
 
-            return Command::FAILURE;
+            return Command::INVALID;
         }
+
+        $output->writeln([ "Exporting the product list…\n"]);
+
+        $this->exporterService->exportProducts($format);
+
+        $output->writeln([ "Product list export completed.\n"]);
 
         return Command::SUCCESS;
     }

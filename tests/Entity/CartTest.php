@@ -33,7 +33,7 @@ class CartTest extends TestCase
             $cart->addItem($item);
         }
 
-        $this->assertEquals($total, $cart->getTotal());
+        static::assertEquals($total, $cart->getTotal());
     }
 
     public function testCount(): void
@@ -59,6 +59,6 @@ class CartTest extends TestCase
             $cart->addItem($item);
         }
 
-        $this->assertEquals($total, $cart->getCount());
+        static::assertEquals($total, $cart->getCount());
     }
 }
