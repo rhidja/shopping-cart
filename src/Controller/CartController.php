@@ -124,7 +124,7 @@ class CartController extends AbstractController
             $items = $cart->getItems();
             foreach ($items as $item) {
                 if($item->getProduct()->getId() == $productId){
-                    $cart->getItems()->removeItem($item);
+                    $cart->getItems()->removeElement($item);
                     break;
                 }
             }

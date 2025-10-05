@@ -16,11 +16,11 @@
                         <img src="https://placehold.co/350x222" alt="placeholder">
                     </div>
             		<figcaption class="info-wrap">
-            				<h4 class="title"><a href="{{ path('app_products_show', {'id' : product.id}) }}" >{{ product.name}}</a></h4>
+            				<h4 class="title"><a href="{{ path('app_products_show', {'slug' : product.slug}) }}" >{{ product.name}}</a></h4>
             				<p class="desc">{{ product.description|slice(0, 70) }}...</p><!-- rating-wrap.// -->
             		</figcaption>
             		<div class="bottom-wrap">
-            			<a href="{{ path('app_products_show', {id : product.id }) }}" class="btn btn-sm btn-primary float-right" title="Show product">
+            			<a href="{{ path('app_products_show', {slug : product.slug }) }}" class="btn btn-sm btn-primary float-right" title="Show product">
                             Show product
                         </a>
             			<div class="price-wrap h5">

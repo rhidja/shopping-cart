@@ -23,11 +23,11 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_products_show', methods: ['GET'])]
+    #[Route('/{slug:product}', name: 'app_products_show', methods: ['GET'])]
     public function show(Product $product = null): Response
     {
         if (null === $product) {
-            $this->addFlash('notice', ['type' => 'danger', 'title' =>'Oops!', 'message' => "Ce product n'existe pas."]);
+            $this->addFlash('notice', ['type' => 'danger', 'title' =>'Oops!', 'message' => "Product does not exist."]);
 
             return $this->redirectToRoute('app_products_index');
         }
@@ -40,7 +40,6 @@ class ProductController extends AbstractController
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'form' => $form->createView(),
-            ]
-        );
+        ]);
     }
 }
