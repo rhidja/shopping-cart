@@ -55,7 +55,7 @@ class ProduitControllerTest extends WebTestCase
 
     public function testShow(): Crawler
     {
-        $crawler = $this->client->request('GET', '/1');
+        $crawler = $this->client->request('GET', '/ipad');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertSame("Product details", $crawler->filter('title')->text());
 

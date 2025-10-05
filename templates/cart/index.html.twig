@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class="col-sm-3 hidden-xs"><img src="http://placehold.co/100x100" alt="..." class="img-responsive"/></div>
                                 <div class="col-sm-9">
-                                    <h4 ><a href="{{ path('app_products_show', {'id' : item.product.id}) }}" >{{ item.product.name}}</a></h4>
+                                    <h4 ><a href="{{ path('app_products_show', {'slug' : item.product.slug}) }}" >{{ item.product.name}}</a></h4>
                                     <p>{{ item.product.description|slice(0, 80) }}...</p>
                                 </div>
                             </div>
