@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use App\Command\ExportCommand;
 use App\Entity\Product;
 use App\Service\ExportService;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -25,7 +24,27 @@ class ExportCommandTest extends KernelTestCase
         $this->exporterService = new ExportService($productRepository, '');
     }
 
-    public function testExecute(): void
+    public function testExecuteSuccess(): void
+    {
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
+
+        $command = $application->find('app:export');
+        $commandTester = new CommandTester($command);
+
+        $format = 'csv';
+        $commandTester->execute([
+            'format' => $format,
+        ]);
+
+        $commandTester->assertCommandIsSuccessful();
+
+        $output = $commandTester->getDisplay();
+        static::assertStringContainsString("Exporting the product list…\n", $output);
+        static::assertStringContainsString("Product list export completed.\n", $output);
+    }
+
+    public function testExecuteFormatNotSupported(): void
     {
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -35,13 +54,11 @@ class ExportCommandTest extends KernelTestCase
 
         $format = 'php';
 
-        if(!in_array($format, ExportCommand::getFormats())){
-            $commandTester->execute([
-                'format' => $format,
-            ]);
+        static::assertSame(1, $commandTester->execute([
+            'format' => $format,
+        ]));
 
-            $output = $commandTester->getDisplay();
-            static::assertStringContainsString("Oops! The format '$format' is not supported by the command!\n", $output);
-        }
+        $output = $commandTester->getDisplay();
+        static::assertStringContainsString("Oops! The format '$format' is not supported by the command!\n", $output);
     }
 }
