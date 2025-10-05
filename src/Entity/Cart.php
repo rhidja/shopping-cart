@@ -26,6 +26,9 @@ class Cart
     #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: 'cart', cascade: ['persist'], orphanRemoval: true)]
     private Collection $items;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'carts')]
+    private ?User $owner;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -84,5 +87,15 @@ class Cart
         }
 
         return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): void
+    {
+        $this->owner = $owner;
     }
 }
