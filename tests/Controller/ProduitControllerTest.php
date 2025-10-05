@@ -22,7 +22,7 @@ class ProduitControllerTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', '/');
         static::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        static::assertSame('Liste des produits', $crawler->filter('title')->text());
+        static::assertSame('List of products', $crawler->filter('title')->text());
         static::assertEquals(12, $crawler->filter('figure.card')->count());
 
         return $crawler;
@@ -31,12 +31,12 @@ class ProduitControllerTest extends WebTestCase
     #[Depends('testIndex')]
     public function testVoirDetailBouton($crawler): void
     {
-        $links = $crawler->filter('a:contains("Voir la fiche")');
+        $links = $crawler->filter('a:contains("Show product")');
         $titles = $crawler->filter('figcaption h4');
 
         for ($i=0; $i < count($links); $i++) {
             $crawler = $this->client->click($links->eq($i)->link());
-            $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
+            $this->assertSame("Product details", $crawler->filter('title')->text());
             $this->assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
         }
     }
@@ -48,7 +48,7 @@ class ProduitControllerTest extends WebTestCase
 
         for ($i=0; $i < count($titles); $i++) {
             $crawler = $this->client->click($titles->eq($i)->link());
-            $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
+            $this->assertSame("Product details", $crawler->filter('title')->text());
             $this->assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
         }
     }
@@ -57,7 +57,7 @@ class ProduitControllerTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', '/1');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertSame("Détail d'un produit", $crawler->filter('title')->text());
+        $this->assertSame("Product details", $crawler->filter('title')->text());
 
         return $crawler;
     }
@@ -65,9 +65,9 @@ class ProduitControllerTest extends WebTestCase
     #[Depends('testShow')]
     public function testRetourListProduits($crawler): void
     {
-        $link = $crawler->filter('a[title="Liste des produits"]')->attr('href');
+        $link = $crawler->filter('a[title="List of products"]')->attr('href');
         $crawler = $this->client->request('GET', $link);
-        static::assertSame('Liste des produits', $crawler->filter('title')->text());
+        static::assertSame('List of products', $crawler->filter('title')->text());
         static::assertEquals(12, $crawler->filter('figure.card')->count());
     }
 

@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Repository\ProduitRepository;
-use App\Service\ExporterService;
-use App\Entity\Produit;
+use App\Repository\ProductRepository;
+use App\Service\ExportService;
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ExporterServiceTest extends WebTestCase
+class ExportServiceTest extends WebTestCase
 {
     const string FORMAT_CSV = 'csv';
     const string FORMAT_TXT = 'txt';
 
-    private ProduitRepository $produitRepository;
+    private ProductRepository $productRepository;
     private $file;
     private string $exportDir;
 
@@ -26,28 +26,28 @@ class ExporterServiceTest extends WebTestCase
         $container = $kernel->getContainer();
         $this->produitRepository = $container->get('doctrine')
                                                    ->getManager()
-                                                   ->getRepository(Produit::class);
+                                                   ->getRepository(Product::class);
         $this->exportDir = $container->getParameter('export_dir');
     }
 
     public function testProduitsExporter(): void
     {
-        $produits = $this->produitRepository->findAllOrderByNom();
-        $exporterService = new ExporterService($this->produitRepository, $this->exportDir);
+        $products = $this->produitRepository->findAllOrderByName();
+        $exporterService = new ExportService($this->produitRepository, $this->exportDir);
 
         foreach ([self::FORMAT_CSV, self::FORMAT_TXT] as $format) {
-            $exporterService->exporterProduits($format);
+            $exporterService->exportProducts($format);
 
             $method = 'export'.ucfirst($format);
             if (method_exists($this, $method)) {
                 $this->openFile($format);
-                $this->$method($produits);
+                $this->$method($products);
                 fclose($this->file);
             }
         }
     }
 
-    public function exportCsv($produits): void
+    public function exportCsv($products): void
     {
         $rows = [];
         while(!feof($this->file))
@@ -57,13 +57,12 @@ class ExporterServiceTest extends WebTestCase
 
         $rows = json_encode($rows);
 
-        /** @var Produit $produit */
-        foreach ($produits as $produit) {
-//            static::assertStringContainsString($produit->getNom(), $rows);
-//            static::assertStringContainsString($produit->getDescription(), $rows);
+        /** @var Product $product */
+        foreach ($products as $product) {
+            static::assertStringContainsString($product->getName(), $rows);
         }    }
 
-    public function exportTxt($produits): void
+    public function exportTxt($products): void
     {
         $rows = [];
         while(!feof($this->file))
@@ -78,15 +77,15 @@ class ExporterServiceTest extends WebTestCase
 
         $rows = json_encode($rows);
 
-        /** @var Produit $produit */
-        foreach ($produits as $produit) {
-            static::assertStringContainsString($produit->getNom(), $rows);
+        /** @var Product $product */
+        foreach ($products as $product) {
+            static::assertStringContainsString($product->getName(), $rows);
         }
     }
 
     public function openFile($format): void
     {
-        $this->file = fopen($this->exportDir."produits.$format", 'r');;
+        $this->file = fopen($this->exportDir."products.$format", 'r');;
     }
 
     /**
