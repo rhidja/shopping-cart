@@ -7,7 +7,6 @@ use PHPUnit\Framework\Attributes\Depends;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\HttpFoundation\Response;
 
 class ProduitControllerTest extends WebTestCase
 {
@@ -21,8 +20,9 @@ class ProduitControllerTest extends WebTestCase
     public function testIndex(): Crawler
     {
         $crawler = $this->client->request('GET', '/');
-        static::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        static::assertSame('List of products', $crawler->filter('title')->text());
+
+        static::assertResponseIsSuccessful();
+        static::assertPageTitleSame('List of products');
         static::assertEquals(12, $crawler->filter('figure.card')->count());
 
         return $crawler;
@@ -36,8 +36,9 @@ class ProduitControllerTest extends WebTestCase
 
         for ($i=0; $i < count($links); $i++) {
             $crawler = $this->client->click($links->eq($i)->link());
-            $this->assertSame("Product details", $crawler->filter('title')->text());
-            $this->assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
+
+            static::assertPageTitleSame("Product details");
+            static::assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
         }
     }
 
@@ -48,16 +49,18 @@ class ProduitControllerTest extends WebTestCase
 
         for ($i=0; $i < count($titles); $i++) {
             $crawler = $this->client->click($titles->eq($i)->link());
-            $this->assertSame("Product details", $crawler->filter('title')->text());
-            $this->assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
+
+            static::assertPageTitleSame("Product details");
+            static::assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
         }
     }
 
     public function testShow(): Crawler
     {
         $crawler = $this->client->request('GET', '/ipad');
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertSame("Product details", $crawler->filter('title')->text());
+
+        static::assertResponseIsSuccessful();
+        static::assertPageTitleSame("Product details");
 
         return $crawler;
     }
@@ -67,14 +70,16 @@ class ProduitControllerTest extends WebTestCase
     {
         $link = $crawler->filter('a[title="List of products"]')->attr('href');
         $crawler = $this->client->request('GET', $link);
-        static::assertSame('List of products', $crawler->filter('title')->text());
+
+        static::assertPageTitleSame('List of products');
         static::assertEquals(12, $crawler->filter('figure.card')->count());
     }
 
     public function testNotFound(): void
     {
-        $crawler = $this->client->request('GET', '/1111111');
-        static::assertTrue($this->client->getResponse()->isRedirect());
-        $crawler = $this->client->followRedirect();
+        $this->client->request('GET', '/1111111');
+
+        static::assertResponseRedirects();
+        $this->client->followRedirect();
     }
 }

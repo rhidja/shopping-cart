@@ -21,11 +21,11 @@ class ProductControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/api/products/');
 
-        $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertContentType();
+        static::assertResponseIsSuccessful();
+        static::assertContentType();
 
         $products = json_decode((string) $this->client->getResponse()->getContent(), true);
-        $this->assertCount(12, $products);
+        static::assertCount(12, $products);
 
         $this->hasKeys($products, ['id', 'name', 'description']);
         $this->notEmpty($products, ['id', 'name']);
@@ -38,8 +38,8 @@ class ProductControllerTest extends WebTestCase
     {
         foreach ($products as $product) {
             $this->client->request('GET', '/api/products/'.$product['id']);
-            $this->assertTrue($this->client->getResponse()->isSuccessful());
-            $this->assertContentType();
+            static::assertTrue($this->client->getResponse()->isSuccessful());
+            static::assertContentType();
 
             $prod = json_decode((string) $this->client->getResponse()->getContent(), true);
             $keys = array_keys($product);
@@ -60,8 +60,8 @@ class ProductControllerTest extends WebTestCase
         }
 
         $this->client->request('GET', '/api/products/'.$id);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-        $this->assertStringContainsString(
+        static::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        static::assertStringContainsString(
             "No product matches this ID.",
             $this->client->getResponse()->getContent()
         );
@@ -71,7 +71,7 @@ class ProductControllerTest extends WebTestCase
     {
         foreach ($products as $product) {
             foreach ($keys as $key) {
-                $this->assertArrayHasKey($key, $product);
+                static::assertArrayHasKey($key, $product);
             }
         }
     }
@@ -80,8 +80,8 @@ class ProductControllerTest extends WebTestCase
     {
         foreach ($products as $product) {
             foreach ($keys as $key) {
-                $this->assertNotEmpty($product[$key]);
-                $this->assertNotNull($product[$key]);
+                static::assertNotEmpty($product[$key]);
+                static::assertNotNull($product[$key]);
             }
         }
     }
@@ -89,7 +89,7 @@ class ProductControllerTest extends WebTestCase
     public function compareValues($product, $prod): void
     {
         foreach ($product as $key => $value) {
-            $this->assertEquals($value, $prod[$key]);
+            static::assertEquals($value, $prod[$key]);
         }
     }
 
@@ -99,7 +99,7 @@ class ProductControllerTest extends WebTestCase
     private function assertContentType(): void
     {
         // Assert that the "Content-Type" header is "application/json"
-        $this->assertTrue(
+        static::assertTrue(
             $this->client->getResponse()->headers->contains(
                 'Content-Type',
                 'application/json'

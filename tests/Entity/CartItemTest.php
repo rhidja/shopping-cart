@@ -22,6 +22,6 @@ class CartItemTest extends TestCase
         $item->setProduct($product);
         $item->setQuantity($quantity);
 
-        $this->assertEquals($subTotal, $item->getSubTotal());
+        static::assertEquals($subTotal, $item->getSubTotal());
     }
 }

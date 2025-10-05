@@ -30,7 +30,7 @@ class ProductRepositoryTest extends KernelTestCase
             ->findAllOrderByName()
         ;
 
-        $this->assertCount(12, $products);
+        static::assertCount(12, $products);
     }
 
     /**
