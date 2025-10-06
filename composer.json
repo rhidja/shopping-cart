@@ -12,7 +12,7 @@
         "doctrine/doctrine-bundle": "^2.16.2",
         "doctrine/doctrine-migrations-bundle": "^3.4.2",
         "doctrine/orm": "^3.5.2",
-        "easycorp/easyadmin-bundle": "^4.25.1",
+        "easycorp/easyadmin-bundle": "^4.26",
         "phpdocumentor/reflection-docblock": "^5.6.3",
         "phpstan/phpdoc-parser": "^2.3",
         "stof/doctrine-extensions-bundle": "^1.14",
