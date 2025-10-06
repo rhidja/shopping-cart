@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\Controller;
@@ -10,7 +11,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ProductControllerTest extends WebTestCase
 {
-    private KernelBrowser |null $client = null;
+    private ?KernelBrowser $client = null;
 
     public function setUp(): void
     {
@@ -34,10 +35,10 @@ class ProductControllerTest extends WebTestCase
         $links = $crawler->filter('a:contains("Show product")');
         $titles = $crawler->filter('figcaption h4');
 
-        for ($i=0; $i < count($links); $i++) {
+        for ($i = 0; $i < count($links); ++$i) {
             $crawler = $this->client->click($links->eq($i)->link());
 
-            static::assertPageTitleSame("Product details");
+            static::assertPageTitleSame('Product details');
             static::assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
         }
     }
@@ -47,10 +48,10 @@ class ProductControllerTest extends WebTestCase
     {
         $titles = $crawler->filter('figcaption h4 a');
 
-        for ($i=0; $i < count($titles); $i++) {
+        for ($i = 0; $i < count($titles); ++$i) {
             $crawler = $this->client->click($titles->eq($i)->link());
 
-            static::assertPageTitleSame("Product details");
+            static::assertPageTitleSame('Product details');
             static::assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
         }
     }
@@ -60,7 +61,7 @@ class ProductControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/ipad');
 
         static::assertResponseIsSuccessful();
-        static::assertPageTitleSame("Product details");
+        static::assertPageTitleSame('Product details');
 
         return $crawler;
     }

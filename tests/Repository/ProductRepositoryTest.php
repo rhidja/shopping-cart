@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\Repository;
@@ -12,9 +13,6 @@ class ProductRepositoryTest extends KernelTestCase
 {
     private ?EntityManagerInterface $entityManager;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
@@ -31,9 +29,6 @@ class ProductRepositoryTest extends KernelTestCase
         static::assertCount(12, $products);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function tearDown(): void
     {
         parent::tearDown();
