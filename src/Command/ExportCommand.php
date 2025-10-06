@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -13,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(
     name: 'app:export',
     description: 'Export in CSV format.',
-    help: "This command allows exporting the data in CSV format."
+    help: 'This command allows exporting the data in CSV format.'
 )]
 class ExportCommand
 {
@@ -27,22 +28,21 @@ class ExportCommand
     public function __invoke(
         #[Argument('The format is required.')] string $format,
         InputInterface $input,
-        OutputInterface $output
-    ): int
-    {
+        OutputInterface $output,
+    ): int {
         $format = $input->getArgument('format');
 
-        if(!in_array($format, [self::FORMAT_CSV, self::FORMAT_TXT])) {
+        if (!in_array($format, [self::FORMAT_CSV, self::FORMAT_TXT])) {
             $output->writeln(["Oops! The format '$format' is not supported by the command!\n"]);
 
             return Command::INVALID;
         }
 
-        $output->writeln([ "Exporting the product list…\n"]);
+        $output->writeln(["Exporting the product list…\n"]);
 
         $this->exporterService->exportProducts($format);
 
-        $output->writeln([ "Product list export completed.\n"]);
+        $output->writeln(["Product list export completed.\n"]);
 
         return Command::SUCCESS;
     }

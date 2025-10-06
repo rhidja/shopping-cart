@@ -1,15 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Form;
 
 use App\Entity\CartItem;
 use App\Entity\Product;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ItemType extends AbstractType
 {

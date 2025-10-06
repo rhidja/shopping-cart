@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -6,9 +7,9 @@ namespace App\Controller\Api;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/api/products')]
 class ProductController extends AbstractController
@@ -31,10 +32,10 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}', name: 'api_products_show', methods: ['GET'])]
-    public function show(Product $product = null): JsonResponse
+    public function show(?Product $product = null): JsonResponse
     {
         if (empty($product)) {
-            return new JsonResponse(['message' => "No product matches this ID."], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'No product matches this ID.'], Response::HTTP_NOT_FOUND);
         }
 
         $formatted = [

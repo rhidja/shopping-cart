@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -8,11 +9,11 @@ use App\Entity\CartItem;
 use App\Form\ItemType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/cart')]
 class CartController extends AbstractController
@@ -28,7 +29,7 @@ class CartController extends AbstractController
 
         $cart = $session->get('cart');
 
-        if($cart == null){
+        if (null == $cart) {
             $cart = new Cart();
             $session->set('cart', $cart);
         }
@@ -52,13 +53,12 @@ class CartController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             if (!$cart->getItems()->isEmpty()) {
                 $exists = false;
                 $items = $cart->getItems();
 
                 foreach ($items as $key => $elem) {
-                    if($elem->getProduct()->getId() == $item->getProduct()->getId()){
+                    if ($elem->getProduct()->getId() == $item->getProduct()->getId()) {
                         $quantity = $elem->getQuantity() + $item->getQuantity();
                         $cart->getItems()->get($key)->setQuantity($quantity);
                         $exists = true;
@@ -66,10 +66,10 @@ class CartController extends AbstractController
                     }
                 }
 
-                if(!$exists){
+                if (!$exists) {
                     $cart->addItem($item);
                 }
-            }else{
+            } else {
                 $cart->addItem($item);
             }
         }
@@ -87,24 +87,22 @@ class CartController extends AbstractController
         $productId = $request->get('product_id');
         $quantity = $request->get('quantity');
 
-
         if (!$cart->getItems()->isEmpty()) {
-
             $items = $cart->getItems();
             foreach ($items as $key => $item) {
-                if($item->getProduct()->getId() == $productId){
-                    if($quantity == 0 ){
+                if ($item->getProduct()->getId() == $productId) {
+                    if (0 == $quantity) {
                         $cart->getItems()->removeElement($item);
-                    }else{
+                    } else {
                         $cart->getItems()->get($key)->setQuantity($quantity);
                     }
 
-                    $response=["status" => "ok", "message" => "Quantity is updated"];
+                    $response = ['status' => 'ok', 'message' => 'Quantity is updated'];
                     break;
                 }
             }
-        }else{
-            $response=["status" => "ko", "message" => "Product not found"];
+        } else {
+            $response = ['status' => 'ko', 'message' => 'Product not found'];
         }
 
         $request->getSession()->set('cart', $cart);
@@ -120,10 +118,9 @@ class CartController extends AbstractController
         $productId = $request->get('product_id');
 
         if (!$cart->getItems()->isEmpty()) {
-
             $items = $cart->getItems();
             foreach ($items as $item) {
-                if($item->getProduct()->getId() == $productId){
+                if ($item->getProduct()->getId() == $productId) {
                     $cart->getItems()->removeElement($item);
                     break;
                 }
@@ -159,7 +156,7 @@ class CartController extends AbstractController
 
         $cart = $session->get('cart');
 
-        if($cart == null){
+        if (null == $cart) {
             $cart = new Cart();
             $session->set('cart', $cart);
         }

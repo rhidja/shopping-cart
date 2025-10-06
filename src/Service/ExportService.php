@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -17,9 +18,9 @@ class ExportService
     public function __construct(
         private readonly ProductRepository $productRepository,
         #[Autowire('%export_dir%')]
-        private readonly string $exportDir
-    )
-    {}
+        private readonly string $exportDir,
+    ) {
+    }
 
     public function exportProducts(string $format): void
     {
@@ -57,7 +58,6 @@ class ExportService
     public function exportTxt(array $products): void
     {
         foreach ($products as $product) {
-
             $data = [
                 $product->getId(),
                 $product->getName(),
@@ -72,6 +72,6 @@ class ExportService
 
     public function openFile(string $format): void
     {
-        $this->file = fopen($this->exportDir."products.$format", 'w+');;
+        $this->file = fopen($this->exportDir."products.$format", 'w+');
     }
 }
