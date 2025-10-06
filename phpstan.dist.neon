@@ -6,3 +6,5 @@ parameters:
         - public/
         - src/
         - tests/
+    ignoreErrors:
+            - '#Property App\\Entity\\.*::\$id \(int\|null\) is never assigned int#'
