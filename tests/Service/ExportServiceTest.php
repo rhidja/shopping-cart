@@ -14,7 +14,7 @@ class ExportServiceTest extends WebTestCase
     public const string FORMAT_CSV = 'csv';
     public const string FORMAT_TXT = 'txt';
 
-    private ProductRepository $produitRepository;
+    private ProductRepository $productRepository;
     private mixed $file = null;
     private string $exportDir;
 
@@ -22,16 +22,16 @@ class ExportServiceTest extends WebTestCase
     {
         $kernel = self::bootKernel();
         $container = $kernel->getContainer();
-        $this->produitRepository = $container->get('doctrine')
+        $this->productRepository = $container->get('doctrine')
                                                    ->getManager()
                                                    ->getRepository(Product::class);
         $this->exportDir = $container->getParameter('export_dir');
     }
 
-    public function testProduitsExporter(): void
+    public function testProductsExporter(): void
     {
-        $products = $this->produitRepository->findAllOrderByName();
-        $exporterService = new ExportService($this->produitRepository, $this->exportDir);
+        $products = $this->productRepository->findAllOrderByName();
+        $exporterService = new ExportService($this->productRepository, $this->exportDir);
 
         foreach ([self::FORMAT_CSV, self::FORMAT_TXT] as $format) {
             $exporterService->exportProducts($format);

@@ -13,6 +13,8 @@ class ProductControllerTest extends WebTestCase
 {
     private ?KernelBrowser $client = null;
 
+    private const string PATH = '/products/';
+
     public function setUp(): void
     {
         $this->client = static::createClient();
@@ -20,7 +22,7 @@ class ProductControllerTest extends WebTestCase
 
     public function testIndex(): Crawler
     {
-        $crawler = $this->client->request('GET', '/');
+        $crawler = $this->client->request('GET', self::PATH);
 
         static::assertResponseIsSuccessful();
         static::assertPageTitleSame('List of products');
@@ -30,7 +32,7 @@ class ProductControllerTest extends WebTestCase
     }
 
     #[Depends('testIndex')]
-    public function testVoirDetailBouton(Crawler $crawler): void
+    public function testShowProductBouton(Crawler $crawler): void
     {
         $links = $crawler->filter('a:contains("Show product")');
         $titles = $crawler->filter('figcaption h4');
@@ -44,7 +46,7 @@ class ProductControllerTest extends WebTestCase
     }
 
     #[Depends('testIndex')]
-    public function testVoirDetailLienTitre(Crawler $crawler): void
+    public function testShowDetailsLinkTitle(Crawler $crawler): void
     {
         $titles = $crawler->filter('figcaption h4 a');
 
@@ -56,9 +58,9 @@ class ProductControllerTest extends WebTestCase
         }
     }
 
-    public function testShow(): Crawler
+    public function testShowProduct(): Crawler
     {
-        $crawler = $this->client->request('GET', '/ipad');
+        $crawler = $this->client->request('GET', self::PATH.'ipad');
 
         static::assertResponseIsSuccessful();
         static::assertPageTitleSame('Product details');
@@ -66,8 +68,8 @@ class ProductControllerTest extends WebTestCase
         return $crawler;
     }
 
-    #[Depends('testShow')]
-    public function testRetourListProduits(Crawler $crawler): void
+    #[Depends('testShowProduct')]
+    public function testRetourListProducts(Crawler $crawler): void
     {
         $link = $crawler->filter('a[title="List of products"]')->attr('href');
         $crawler = $this->client->request('GET', $link);
@@ -78,7 +80,7 @@ class ProductControllerTest extends WebTestCase
 
     public function testNotFound(): void
     {
-        $this->client->request('GET', '/1111111');
+        $this->client->request('GET', self::PATH.'NOT_VALID_SLUG');
 
         static::assertResponseRedirects();
         $this->client->followRedirect();

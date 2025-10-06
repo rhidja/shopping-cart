@@ -41,9 +41,9 @@ class CartControllerTest extends WebTestCase
         static::assertEquals(12, $crawler->filter('figure.card')->count());
     }
 
-    public function testAddItem(): Crawler
+    public function testAddItemToCart(): Crawler
     {
-        $crawler = $this->client->request('GET', '/ipad');
+        $crawler = $this->client->request('GET', '/products/ipad');
 
         static::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         static::assertPageTitleSame('Product details');
@@ -67,7 +67,7 @@ class CartControllerTest extends WebTestCase
         return $crawler;
     }
 
-    #[Depends('testAddItem')]
+    #[Depends('testAddItemToCart')]
     public function testEmptyCart(Crawler $crawler): void
     {
         $form = $crawler->selectButton('Empty the cart')->form();
