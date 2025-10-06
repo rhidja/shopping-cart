@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\Controller;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CartControllerTest extends WebTestCase
 {
-    private KernelBrowser|null $client = null;
+    private ?KernelBrowser $client = null;
 
     public function setUp(): void
     {
@@ -40,18 +41,18 @@ class CartControllerTest extends WebTestCase
         static::assertEquals(12, $crawler->filter('figure.card')->count());
     }
 
-    public function testAddItem(): Crawler
+    public function testAddItemToCart(): Crawler
     {
-        $crawler = $this->client->request('GET', '/ipad');
+        $crawler = $this->client->request('GET', '/products/ipad');
 
         static::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        static::assertPageTitleSame("Product details");
+        static::assertPageTitleSame('Product details');
 
         $form = $crawler->selectButton('Add to cart')->form();
 
         // Hydrater le formulaire
-        $form['item[quantity]'] = (string)mt_rand(1,5);
-        $form['item[product]'] = (string)mt_rand(1,12);
+        $form['item[quantity]'] = (string) mt_rand(1, 5);
+        $form['item[product]'] = (string) mt_rand(1, 12);
 
         $this->client->submit($form);
 
@@ -66,7 +67,7 @@ class CartControllerTest extends WebTestCase
         return $crawler;
     }
 
-    #[Depends('testAddItem')]
+    #[Depends('testAddItemToCart')]
     public function testEmptyCart(Crawler $crawler): void
     {
         $form = $crawler->selectButton('Empty the cart')->form();

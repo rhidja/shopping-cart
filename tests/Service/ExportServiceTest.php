@@ -1,39 +1,37 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Entity\Product;
 use App\Repository\ProductRepository;
 use App\Service\ExportService;
-use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ExportServiceTest extends WebTestCase
 {
-    const string FORMAT_CSV = 'csv';
-    const string FORMAT_TXT = 'txt';
+    public const string FORMAT_CSV = 'csv';
+    public const string FORMAT_TXT = 'txt';
 
-    private ProductRepository $produitRepository;
+    private ProductRepository $productRepository;
     private mixed $file = null;
     private string $exportDir;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
         $container = $kernel->getContainer();
-        $this->produitRepository = $container->get('doctrine')
+        $this->productRepository = $container->get('doctrine')
                                                    ->getManager()
                                                    ->getRepository(Product::class);
         $this->exportDir = $container->getParameter('export_dir');
     }
 
-    public function testProduitsExporter(): void
+    public function testProductsExporter(): void
     {
-        $products = $this->produitRepository->findAllOrderByName();
-        $exporterService = new ExportService($this->produitRepository, $this->exportDir);
+        $products = $this->productRepository->findAllOrderByName();
+        $exporterService = new ExportService($this->productRepository, $this->exportDir);
 
         foreach ([self::FORMAT_CSV, self::FORMAT_TXT] as $format) {
             $exporterService->exportProducts($format);
@@ -53,8 +51,7 @@ class ExportServiceTest extends WebTestCase
     public function exportCsv(array $products): void
     {
         $rows = [];
-        while(!feof($this->file))
-        {
+        while (!feof($this->file)) {
             $rows[] = fgetcsv($this->file);
         }
 
@@ -63,7 +60,8 @@ class ExportServiceTest extends WebTestCase
         /** @var Product $product */
         foreach ($products as $product) {
             static::assertStringContainsString($product->getName(), $rows);
-        }    }
+        }
+    }
 
     /**
      * @param Product[] $products
@@ -71,14 +69,13 @@ class ExportServiceTest extends WebTestCase
     public function exportTxt(array $products): void
     {
         $rows = [];
-        while(!feof($this->file))
-        {
+        while (!feof($this->file)) {
             $line = fgets($this->file);
-            if ($line === false) {
+            if (false === $line) {
                 continue;
             }
 
-            $rows[] = explode("\t", str_replace("\n", "", $line));
+            $rows[] = explode("\t", str_replace("\n", '', $line));
         }
 
         $rows = json_encode($rows);
@@ -94,9 +91,6 @@ class ExportServiceTest extends WebTestCase
         $this->file = fopen($this->exportDir."products.$format", 'r');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function tearDown(): void
     {
         parent::tearDown();

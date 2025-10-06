@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\Controller\Api;
@@ -57,7 +58,7 @@ class ProductControllerTest extends WebTestCase
     }
 
     /**
-     * @param  array<int, array<string, string|int|null>> $products
+     * @param array<int, array<string, string|int|null>> $products
      */
     #[Depends('testApiIndex')]
     public function testNotFound(array $products): void
@@ -73,14 +74,14 @@ class ProductControllerTest extends WebTestCase
 
         static::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
         static::assertStringContainsString(
-            "No product matches this ID.",
+            'No product matches this ID.',
             $this->client->getResponse()->getContent()
         );
     }
 
     /**
      * @param array<int, array<string, string|int|null>> $products
-     * @param String[] $keys
+     * @param string[]                                   $keys
      */
     private function hasKeys(array $products, array $keys): void
     {
@@ -93,7 +94,7 @@ class ProductControllerTest extends WebTestCase
 
     /**
      * @param array<int, array<string, string|int|null>> $products
-     * @param String[] $keys
+     * @param string[]                                   $keys
      */
     public function notEmpty(array $products, array $keys): void
     {
@@ -117,7 +118,7 @@ class ProductControllerTest extends WebTestCase
     }
 
     /**
-     * Assert that the "Content-Type" header is "application/json"
+     * Assert that the "Content-Type" header is "application/json".
      */
     private function assertContentType(): void
     {
