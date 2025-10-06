@@ -26,7 +26,9 @@ class ProductControllerTest extends WebTestCase
 
         static::assertResponseIsSuccessful();
         static::assertPageTitleSame('List of products');
+        static::assertSame('List of products', $crawler->filter('h1')->text());
         static::assertEquals(12, $crawler->filter('figure.card')->count());
+        static::assertSelectorExists('img[alt]');
 
         return $crawler;
     }
@@ -41,6 +43,7 @@ class ProductControllerTest extends WebTestCase
             $crawler = $this->client->click($links->eq($i)->link());
 
             static::assertPageTitleSame('Product details');
+            static::assertSelectorExists('img[alt]');
             static::assertSame($titles->eq($i)->text(), $crawler->filter('h3.card-title')->text());
         }
     }
@@ -64,6 +67,7 @@ class ProductControllerTest extends WebTestCase
 
         static::assertResponseIsSuccessful();
         static::assertPageTitleSame('Product details');
+        static::assertSelectorExists('img[alt]');
 
         return $crawler;
     }
@@ -75,6 +79,7 @@ class ProductControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $link);
 
         static::assertPageTitleSame('List of products');
+        static::assertSelectorExists('img[alt]');
         static::assertEquals(12, $crawler->filter('figure.card')->count());
     }
 
