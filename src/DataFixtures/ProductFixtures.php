@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\DataFixtures;
@@ -11,7 +12,7 @@ class ProductFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $products =['Iphone X', 'Ipad', 'Iwatch', 'Sony Z5', 'Samsung Edge', 'Samsung Galaxy','HTC One','MacBook Pro', 'HP ZBook x2', 'AZUS ZenBook Pro', 'Lenovo Yoga 3', 'DELL XPS 13 2-en-1'];
+        $products = ['Iphone X', 'Ipad', 'Iwatch', 'Sony Z5', 'Samsung Edge', 'Samsung Galaxy', 'HTC One', 'MacBook Pro', 'HP ZBook x2', 'AZUS ZenBook Pro', 'Lenovo Yoga 3', 'DELL XPS 13 2-en-1'];
 
         foreach ($products as $prod) {
             $product = new Product();

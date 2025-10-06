@@ -1,16 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Product;
 use App\Entity\CartItem;
+use App\Entity\Product;
 use App\Form\ItemType;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 #[Route('/')]
 class ProductController extends AbstractController
@@ -19,15 +19,15 @@ class ProductController extends AbstractController
     public function index(ProductRepository $productRepository): Response
     {
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAllOrderByName()
+            'products' => $productRepository->findAllOrderByName(),
         ]);
     }
 
     #[Route('/{slug:product}', name: 'app_products_show', methods: ['GET'])]
-    public function show(Product $product = null): Response
+    public function show(?Product $product = null): Response
     {
         if (null === $product) {
-            $this->addFlash('notice', ['type' => 'danger', 'title' =>'Oops!', 'message' => "Product does not exist."]);
+            $this->addFlash('notice', ['type' => 'danger', 'title' => 'Oops!', 'message' => 'Product does not exist.']);
 
             return $this->redirectToRoute('app_products_index');
         }
