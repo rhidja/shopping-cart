@@ -18,7 +18,7 @@ class CartControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function testIndex()
+    public function testIndex(): Crawler
     {
         $crawler = $this->client->request('GET', '/cart/');
 
@@ -31,7 +31,7 @@ class CartControllerTest extends WebTestCase
     }
 
     #[Depends('testIndex')]
-    public function testContinueShopping($crawler): void
+    public function testContinueShopping(Crawler $crawler): void
     {
         $link = $crawler->filter('a[title="Continue shopping"]')->attr('href');
         $crawler = $this->client->request('GET', $link);
@@ -50,8 +50,8 @@ class CartControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add to cart')->form();
 
         // Hydrater le formulaire
-        $form['item[quantity]'] = mt_rand(1,5);
-        $form['item[product]']->select((string)mt_rand(1,12));
+        $form['item[quantity]'] = (string)mt_rand(1,5);
+        $form['item[product]'] = (string)mt_rand(1,12);
 
         $this->client->submit($form);
 
@@ -67,7 +67,7 @@ class CartControllerTest extends WebTestCase
     }
 
     #[Depends('testAddItem')]
-    public function testEmptyCart($crawler): void
+    public function testEmptyCart(Crawler $crawler): void
     {
         $form = $crawler->selectButton('Empty the cart')->form();
         $this->client->submit($form);

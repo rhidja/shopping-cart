@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-class ProduitControllerTest extends WebTestCase
+class ProductControllerTest extends WebTestCase
 {
     private KernelBrowser |null $client = null;
 
@@ -29,7 +29,7 @@ class ProduitControllerTest extends WebTestCase
     }
 
     #[Depends('testIndex')]
-    public function testVoirDetailBouton($crawler): void
+    public function testVoirDetailBouton(Crawler $crawler): void
     {
         $links = $crawler->filter('a:contains("Show product")');
         $titles = $crawler->filter('figcaption h4');
@@ -43,7 +43,7 @@ class ProduitControllerTest extends WebTestCase
     }
 
     #[Depends('testIndex')]
-    public function testVoirDetailLienTitre($crawler): void
+    public function testVoirDetailLienTitre(Crawler $crawler): void
     {
         $titles = $crawler->filter('figcaption h4 a');
 
@@ -66,7 +66,7 @@ class ProduitControllerTest extends WebTestCase
     }
 
     #[Depends('testShow')]
-    public function testRetourListProduits($crawler): void
+    public function testRetourListProduits(Crawler $crawler): void
     {
         $link = $crawler->filter('a[title="List of products"]')->attr('href');
         $crawler = $this->client->request('GET', $link);

@@ -6,5 +6,7 @@ parameters:
         - public/
         - src/
         - tests/
+    excludePaths:
+        - tests/bootstrap.php
     ignoreErrors:
             - '#Property App\\Entity\\.*::\$id \(int\|null\) is never assigned int#'

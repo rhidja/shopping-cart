@@ -13,8 +13,8 @@ class ExportServiceTest extends WebTestCase
     const string FORMAT_CSV = 'csv';
     const string FORMAT_TXT = 'txt';
 
-    private ProductRepository $productRepository;
-    private $file;
+    private ProductRepository $produitRepository;
+    private mixed $file = null;
     private string $exportDir;
 
     /**
@@ -47,7 +47,10 @@ class ExportServiceTest extends WebTestCase
         }
     }
 
-    public function exportCsv($products): void
+    /**
+     * @param Product[] $products
+     */
+    public function exportCsv(array $products): void
     {
         $rows = [];
         while(!feof($this->file))
@@ -62,7 +65,10 @@ class ExportServiceTest extends WebTestCase
             static::assertStringContainsString($product->getName(), $rows);
         }    }
 
-    public function exportTxt($products): void
+    /**
+     * @param Product[] $products
+     */
+    public function exportTxt(array $products): void
     {
         $rows = [];
         while(!feof($this->file))
@@ -83,9 +89,9 @@ class ExportServiceTest extends WebTestCase
         }
     }
 
-    public function openFile($format): void
+    public function openFile(string $format): void
     {
-        $this->file = fopen($this->exportDir."products.$format", 'r');;
+        $this->file = fopen($this->exportDir."products.$format", 'r');
     }
 
     /**
