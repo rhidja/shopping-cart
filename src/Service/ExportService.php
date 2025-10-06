@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -11,7 +12,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  */
 class ExportService
 {
-    private $file;
+    private mixed $file = null;
 
     public function __construct(
         private readonly ProductRepository $productRepository,
@@ -20,13 +21,13 @@ class ExportService
     )
     {}
 
-    public function exportProducts($format): void
+    public function exportProducts(string $format): void
     {
         $this->openFile($format);
 
         $products = $this->productRepository->findAllOrderByName();
 
-        $method = 'export'.ucfirst((string) $format);
+        $method = 'export'.ucfirst($format);
         if (method_exists($this, $method)) {
             $this->$method($products);
         }
@@ -34,6 +35,9 @@ class ExportService
         fclose($this->file);
     }
 
+    /**
+     * @param Product[] $products
+     */
     public function exportCsv($products): void
     {
         foreach ($products as $product) {
@@ -47,7 +51,10 @@ class ExportService
         }
     }
 
-    public function exportTxt($products): void
+    /**
+     * @param Product[] $products
+     */
+    public function exportTxt(array $products): void
     {
         foreach ($products as $product) {
 
@@ -63,7 +70,7 @@ class ExportService
         }
     }
 
-    public function openFile($format): void
+    public function openFile(string $format): void
     {
         $this->file = fopen($this->exportDir."products.$format", 'w+');;
     }

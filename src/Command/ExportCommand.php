@@ -47,6 +47,9 @@ class ExportCommand
         return Command::SUCCESS;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getFormats(): array
     {
         return [
