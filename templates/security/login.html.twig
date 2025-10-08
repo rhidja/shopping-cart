@@ -11,7 +11,7 @@
             <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
-            <form class="form-signin" action="{{ path('login') }}" method="post">
+            <form class="form-signin" action="{{ path('app_login') }}" method="post">
                 <div class="text-center mb-4">
                     <img class="mb-4" src="https://use.fontawesome.com/releases/v5.1.0/svgs/solid/cart-plus.svg" alt="" width="72" height="72">
                     <h1 class="h3 mb-3 font-weight-normal">Shopping Cart</h1>
@@ -27,7 +27,7 @@
                     <label for="password">Mot de passe</label>
                 </div>
 
-                <input type="hidden" name="_target_path" value="/admin" />
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" required>
 
                 <div class="checkbox mb-3">
                     <label>
