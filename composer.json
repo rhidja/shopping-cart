@@ -12,7 +12,7 @@
         "doctrine/doctrine-bundle": "^2.16.2",
         "doctrine/doctrine-migrations-bundle": "^3.4.2",
         "doctrine/orm": "^3.5.2",
-        "easycorp/easyadmin-bundle": "^4.26",
+        "easycorp/easyadmin-bundle": "^4.26.2",
         "phpdocumentor/reflection-docblock": "^5.6.3",
         "phpstan/phpdoc-parser": "^2.3",
         "stof/doctrine-extensions-bundle": "^1.14",
@@ -54,7 +54,7 @@
         "symfony/phpunit-bridge": "^7.3.4",
         "symfony/stopwatch": "7.3.*",
         "symfony/web-profiler-bundle": "7.3.*",
-        "zenstruck/foundry": "^2.7.3"
+        "zenstruck/foundry": "^2.7.4"
     },
     "config": {
         "allow-plugins": {
